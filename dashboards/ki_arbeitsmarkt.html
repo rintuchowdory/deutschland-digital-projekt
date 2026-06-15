@@ -6,232 +6,8 @@
     <title>🤖 KI-Arbeitsmarkt-Monitor | Germany Pulse 2030</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --success: #4CAF50;
-            --danger: #f44336;
-            --warning: #FFC107;
-            --info: #2196F3;
-            --light: #f8f9fa;
-            --dark: #343a40;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark);
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin: 0;
-        }
-        
-        .subtitle {
-            color: var(--secondary);
-            margin: 10px 0 0;
-        }
-        
-        .chart-container {
-            background: white;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .chart-title {
-            font-size: 1.3em;
-            color: var(--dark);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        
-        .stat-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: var(--primary);
-            margin: 10px 0;
-        }
-        
-        .stat-label {
-            color: var(--secondary);
-            font-size: 0.9em;
-        }
-        
-        .filter-section {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .filter-section h3 {
-            margin-top: 0;
-            color: var(--dark);
-        }
-        
-        select, input {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
-            font-size: 1em;
-        }
-        
-        button {
-            padding: 8px 16px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background 0.3s;
-        }
-        
-        button:hover {
-            background: var(--secondary);
-        }
-        
-        .skill-tag {
-            display: inline-block;
-            background: var(--light);
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            color: var(--dark);
-            transition: all 0.3s;
-        }
-        
-        .skill-tag:hover {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        .grow {
-            color: var(--success);
-        }
-        
-        .shrink {
-            color: var(--danger);
-        }
-        
-        .stable {
-            color: var(--warning);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--secondary);
-            font-size: 0.9em;
-        }
-        
-        @media (max-width: 768px) {
-            .chart-container {
-                padding: 10px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Loading Animation */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .spinner {
-            border: 4px solid rgba(102, 126, 234, 0.2);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: var(--dark);
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -100px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -240,6 +16,43 @@
             <p class="subtitle">Welche Jobs wachsen? Welche werden automatisiert? Top IT-Berufe, Gehälter & Skills in Deutschland (2026)</p>
         </header>
         
+        <!-- Quellen & Methodik -->
+        <section class="sources-section">
+            <h2><i class="fas fa-file-alt"></i> Quellen & Methodik</h2>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4><i class="fas fa-chart-line"></i> Datenquellen</h4>
+                    <ul>
+                        <li><strong>Bundesagentur für Arbeit:</strong> Offizielle Arbeitsmarkt- und Berufsdaten (2026)</li>
+                        <li><strong>StepStone:</strong> Gehaltsstudie 2026 für IT-Berufe</li>
+                        <li><strong>Glassdoor:</strong> Gehaltsangaben und Unternehmensbewertungen</li>
+                        <li><strong>Bitkom:</strong> Studien zur KI-Nutzung in deutschen Unternehmen (2026)</li>
+                        <li><strong>LinkedIn:</strong> Skills- und Berufstrends</li>
+                    </ul>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-cog"></i> Methodik</h4>
+                    <p>Die Daten wurden aus offiziellen Quellen aggregiert und für die Visualisierung aufbereitet.</p>
+                    <ul>
+                        <li><strong>Top IT-Berufe:</strong> Nachfrage basierend auf Stellenausschreibungen (2026), Gehälter als Jahresdurchschnitt.</li>
+                        <li><strong>Wachstum:</strong> Prognostiziertes Wachstum bis 2030 basierend auf historischen Daten.</li>
+                        <li><strong>Skills:</strong> Häufigkeit in Stellenausschreibungen (LinkedIn, StepStone).</li>
+                        <li><strong>Automatisierungsrisiko:</strong> Einstufung nach McKinsey und World Economic Forum.</li>
+                    </ul>
+                    <p><em>Hinweis: Die Berechnungen sind vereinfacht und dienen der Veranschaulichung.</em></p>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-code"></i> Technische Umsetzung</h4>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla)</li>
+                        <li><strong>Charts:</strong> Chart.js 3.9.1 für alle interaktiven Diagramme</li>
+                        <li><strong>Icons:</strong> Font Awesome 6.5.1</li>
+                        <li><strong>Responsive:</strong> Vollständig mobiloptimiert</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
         <!-- Filter Section -->
         <div class="filter-section">
             <h3><i class="fas fa-filter"></i> Filter & Sortierung</h3>
@@ -290,13 +103,13 @@
         </div>
         
         <!-- Top 20 IT-Berufe Chart -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📈 Top IT-Berufe: Nachfrage & Wachstum</h2>
             <canvas id="topBerufeChart"></canvas>
         </div>
         
         <!-- Gehaltsentwicklung Chart -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">💰 Gehaltsentwicklung (2020–2026)</h2>
             <canvas id="gehaltChart"></canvas>
         </div>
@@ -308,13 +121,13 @@
         </div>
         
         <!-- Wachstum vs. Automatisierung Chart -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📊 Jobs: Wachstum vs. Automatisierungsrisiko</h2>
             <canvas id="automatisierungChart"></canvas>
         </div>
         
         <!-- Branchen-Nachfrage Chart -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">🏢 Nachfrage nach Branchen</h2>
             <canvas id="branchenChart"></canvas>
         </div>
@@ -332,6 +145,36 @@
         // Globale Variable für die Daten
         let kiDaten = {};
         let filteredBerufe = [];
+        
+        // Standard-Chart-Optionen (verhindert Canvas-Overflow)
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        autoSkip: true,
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            },
+            animation: {
+                duration: 1000
+            }
+        };
         
         // Daten laden
         fetch('../data/ki_arbeitsmarkt.json')
@@ -397,11 +240,12 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     const beruf = filteredBerufe[context.dataIndex];
@@ -417,15 +261,13 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         x: {
-                            stacked: false,
-                            ticks: {
-                                autoSkip: false,
-                                maxRotation: 45,
-                                minRotation: 45
-                            }
+                            ...defaultChartOptions.scales.x,
+                            stacked: false
                         },
                         y: {
+                            ...defaultChartOptions.scales.y,
                             type: 'linear',
                             display: true,
                             position: 'left',
@@ -475,11 +317,12 @@
                     }))
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     return context.dataset.label + ': ' + context.raw.toLocaleString() + '€';
@@ -491,7 +334,9 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         y: {
+                            ...defaultChartOptions.scales.y,
                             beginAtZero: false,
                             title: {
                                 display: true,
@@ -575,12 +420,13 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     indexAxis: 'y',
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     const label = context.dataset.label;
@@ -596,7 +442,9 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         x: {
+                            ...defaultChartOptions.scales.x,
                             min: -20,
                             max: 120,
                             ticks: {
@@ -637,11 +485,12 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     return 'Nachfrage: ' + context.raw + '%';
@@ -653,7 +502,9 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         y: {
+                            ...defaultChartOptions.scales.y,
                             beginAtZero: true,
                             title: {
                                 display: true,
