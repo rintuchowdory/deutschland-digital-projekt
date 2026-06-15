@@ -5,253 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📈 Zukunfts-Simulator 2030 | Germany Pulse 2030</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #9C27B0;
-            --secondary: #7B1FA2;
-            --success: #4CAF50;
-            --danger: #f44336;
-            --warning: #FFC107;
-            --info: #00BCD4;
-            --light: #f8f9fa;
-            --dark: #343a40;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-            color: var(--dark);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin: 0;
-        }
-        
-        .subtitle {
-            color: var(--secondary);
-            margin: 10px 0 0;
-        }
-        
-        .simulator-container {
-            background: white;
-            margin: 20px 0;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .slider-container {
-            margin: 25px 0;
-        }
-        
-        .slider-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        
-        .slider-value {
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        input[type="range"] {
-            width: 100%;
-            height: 10px;
-            -webkit-appearance: none;
-            background: #ddd;
-            border-radius: 5px;
-            outline: none;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 25px;
-            height: 25px;
-            background: var(--primary);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        input[type="range"]::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
-            background: var(--primary);
-            border-radius: 50%;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .results-container {
-            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
-            margin: 30px 0;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .result-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .result-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: var(--primary);
-            margin: 10px 0;
-        }
-        
-        .result-label {
-            color: var(--secondary);
-            font-size: 0.9em;
-        }
-        
-        .result-change {
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-        
-        .positive {
-            color: var(--success);
-        }
-        
-        .negative {
-            color: var(--danger);
-        }
-        
-        .chart-container {
-            background: white;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .chart-title {
-            font-size: 1.3em;
-            color: var(--dark);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-        }
-        
-        .scenario-container {
-            background: white;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .scenario-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        
-        .scenario-card {
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .scenario-card:hover {
-            border-color: var(--primary);
-            background: #f5f5f5;
-        }
-        
-        .scenario-card.active {
-            border-color: var(--primary);
-            background: #f0f0f0;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--secondary);
-            font-size: 0.9em;
-        }
-        
-        .info-box {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 20px 0;
-            color: #856404;
-        }
-        
-        .info-box h4 {
-            margin-top: 0;
-            color: #856404;
-        }
-        
-        @media (max-width: 768px) {
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .scenario-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Loading Animation */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .spinner {
-            border: 4px solid rgba(156, 39, 176, 0.2);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -259,6 +14,46 @@
             <h1><i class="fas fa-rocket"></i> Zukunfts-Simulator 2030</h1>
             <p class="subtitle">Wie könnte Deutschland in 2030 aussehen? Passe die Parameter an und sieh die Auswirkungen!</p>
         </header>
+        
+        <!-- Quellen & Methodik -->
+        <section class="sources-section">
+            <h2><i class="fas fa-file-alt"></i> Quellen & Methodik</h2>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4><i class="fas fa-chart-line"></i> Datenquellen</h4>
+                    <ul>
+                        <li><strong>Statistisches Bundesamt:</strong> Historische Daten zu Digitalisierung, Wirtschaft und Arbeitsmarkt (2020-2026)</li>
+                        <li><strong>Bundesministerium für Wirtschaft und Energie:</strong> KI-Strategie Deutschland, Digitalstrategie 2030</li>
+                        <li><strong>Eurostat:</strong> EU-weite Vergleichsdaten (DESI-Index, Wirtschaftswachstum)</li>
+                        <li><strong>OECD:</strong> Prognosen zu Bildung und technologischer Entwicklung</li>
+                        <li><strong>McKinsey Global Institute:</strong> Studien zu Automatisierung und Arbeitsmarktentwicklung</li>
+                        <li><strong>World Economic Forum:</strong> "The Future of Jobs Report 2025"</li>
+                    </ul>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-cog"></i> Methodik</h4>
+                    <p>Der Simulator basiert auf <strong>linearen Prognosemodellen</strong> und aktuellen Trends.</p>
+                    <ul>
+                        <li><strong>DESI-Index:</strong> Berechnet aus KI-Investitionen (20%), Glasfaserausbau (30%), Bildungsinvestitionen (15%) und Infrastruktur (10%)</li>
+                        <li><strong>KI-Nutzung:</strong> Abhängig von KI-Investitionen, Fachkräften und Bildung (gewichtet)</li>
+                        <li><strong>BIP pro Kopf:</strong> Beeinflusst durch alle Investitionen und Fachkräftezuwanderung</li>
+                        <li><strong>Arbeitslosenquote:</strong> Sinkt mit mehr Fachkräften, KI-Investitionen und Bildung</li>
+                        <li><strong>Lebensqualität:</strong> Kombiniert Infrastruktur, Glasfaser, Bildung, Klimaschutz und Arbeitslosigkeit</li>
+                        <li><strong>CO₂-Emissionen:</strong> Reduziert sich durch Klimaschutzinvestitionen</li>
+                    </ul>
+                    <p><em>Hinweis: Die Berechnungen sind vereinfacht und dienen der Veranschaulichung. Externe Faktoren (globale Wirtschaft, politische Entscheidungen) werden nicht berücksichtigt.</em></p>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-code"></i> Technische Umsetzung</h4>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla)</li>
+                        <li><strong>Charts:</strong> Chart.js 3.9.1 für alle interaktiven Diagramme</li>
+                        <li><strong>Icons:</strong> Font Awesome 6.5.1</li>
+                        <li><strong>Responsive:</strong> Vollständig mobiloptimiert</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
         
         <div class="info-box">
             <h4><i class="fas fa-lightbulb"></i> Wie funktioniert der Simulator?</h4>
@@ -376,7 +171,7 @@
         </div>
         
         <!-- Entwicklung über die Zeit -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📈 Entwicklung 2026–2030</h2>
             <canvas id="entwicklungChart"></canvas>
         </div>
@@ -406,7 +201,7 @@
         </div>
         
         <!-- Szenarien-Chart -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📊 Szenarien im Vergleich</h2>
             <canvas id="szenarienChart"></canvas>
         </div>
@@ -421,6 +216,36 @@
     </div>
     
     <script>
+        // Standard-Chart-Optionen (verhindert Canvas-Overflow)
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        autoSkip: true,
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            },
+            animation: {
+                duration: 1000
+            }
+        };
+        
         // Aktuelle Werte (2026) als Basis
         const basisWerte = {
             desi: 75.2,
@@ -519,47 +344,46 @@
         // Ergebnisse berechnen
         function calculateResults() {
             // DESI-Index 2030
-            // Basis: 75.2 + Wirkung der Investitionen
             const desiEffect = (
-                currentValues.kiInvest * 0.2 +       // KI-Investitionen
-                currentValues.glasfaser * 0.3 +      // Glasfaser
-                currentValues.bildung * 0.15 +       // Bildung
-                currentValues.infrastruktur * 0.1   // Infrastruktur
+                currentValues.kiInvest * 0.2 +
+                currentValues.glasfaser * 0.3 +
+                currentValues.bildung * 0.15 +
+                currentValues.infrastruktur * 0.1
             );
             results.desi2030 = Math.min(100, basisWerte.desi + desiEffect);
             
             // KI-Nutzung in Unternehmen
             const kiEffect = (
-                currentValues.kiInvest * 0.015 +     // KI-Investitionen
-                currentValues.fachkraefte * 0.000005 + // Fachkräfte
-                currentValues.bildung * 0.005        // Bildung
+                currentValues.kiInvest * 0.015 +
+                currentValues.fachkraefte * 0.000005 +
+                currentValues.bildung * 0.005
             );
             results.kiNutzung2030 = Math.min(100, basisWerte.kiNutzung + kiEffect * 100);
             
             // BIP pro Kopf
             const wirtschaftEffect = (
-                currentValues.kiInvest * 50 +        // KI-Investitionen
-                currentValues.fachkraefte * 0.2 +    // Fachkräfte
-                currentValues.infrastruktur * 40 +   // Infrastruktur
-                currentValues.bildung * 30           // Bildung
+                currentValues.kiInvest * 50 +
+                currentValues.fachkraefte * 0.2 +
+                currentValues.infrastruktur * 40 +
+                currentValues.bildung * 30
             );
             results.wirtschaft2030 = basisWerte.wirtschaft + wirtschaftEffect;
             
             // Arbeitslosenquote
             const arbeitslosigkeitEffect = (
-                currentValues.fachkraefte * 0.000005 + // Fachkräfte senken Arbeitslosigkeit
-                currentValues.kiInvest * 0.001 +      // KI-Investitionen schaffen Jobs
-                currentValues.bildung * 0.0005        // Bildung verbessert Qualifikationen
+                currentValues.fachkraefte * 0.000005 +
+                currentValues.kiInvest * 0.001 +
+                currentValues.bildung * 0.0005
             );
             results.arbeitslosigkeit2030 = Math.max(2, basisWerte.arbeitslosigkeit - arbeitslosigkeitEffect * 100);
             
             // Lebensqualitätsindex
             const lebensqualitaetEffect = (
-                currentValues.glasfaser * 0.15 +       // Glasfaser verbessert Lebensqualität
-                currentValues.bildung * 0.05 +        // Bildung
-                currentValues.infrastruktur * 0.1 +   // Infrastruktur
-                currentValues.klima * 0.2 +           // Klimaschutz
-                (100 - results.arbeitslosigkeit2030) * 0.1 // Arbeitslosigkeit
+                currentValues.glasfaser * 0.15 +
+                currentValues.bildung * 0.05 +
+                currentValues.infrastruktur * 0.1 +
+                currentValues.klima * 0.2 +
+                (100 - results.arbeitslosigkeit2030) * 0.1
             );
             results.lebensqualitaet2030 = Math.min(100, basisWerte.lebensqualitaet + lebensqualitaetEffect);
             
@@ -642,11 +466,12 @@
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     return context.dataset.label + ': ' + context.raw.toFixed(1);
@@ -702,11 +527,8 @@
             // Szenarien berechnen
             const szenarioErgebnisse = {};
             for (const [name, values] of Object.entries(szenarien)) {
-                // Temporär Werte setzen
-                const tempValues = currentValues;
-                Object.assign(tempValues, values);
+                const tempValues = {...currentValues, ...values};
                 
-                // Ergebnisse berechnen
                 const desiEffect = (
                     tempValues.kiInvest * 0.2 +
                     tempValues.glasfaser * 0.3 +
@@ -759,11 +581,12 @@
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     return context.dataset.label + ': ' + context.raw.toFixed(1);
