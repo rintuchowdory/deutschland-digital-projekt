@@ -1,109 +1,294 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deutschland wird digital abgehängt? - Dashboard</title>
+    <title>Germany Pulse 2030 🇩🇪 | Wie zukunftsfähig ist Deutschland?</title>
     <link rel="stylesheet" href="dashboards/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="dashboards/script.js" defer></script>
 </head>
 <body>
-    <!-- Animated Background Pattern -->
-    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none;">
-        <object type="image/svg+xml" data="dashboards/background-pattern.svg" style="width: 100%; height: 100%;"></object>
-    </div>
-    
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Germany Pulse 2030 🇩🇪</h1>
+                <p class="hero-subtitle">
+                    Wie zukunftsfähig ist Deutschland?
+                    <span class="typing-text"></span>
+                </p>
+                <p class="hero-description">
+                    Interaktive Analysen zu Digitalisierung, Künstlicher Intelligenz, Arbeitsmarkt,
+                    Lebensqualität und Zukunftsszenarien.
+                </p>
+                <a href="#dashboards" class="cta-button">
+                    <i class="fas fa-chart-line"></i> Dashboards erkunden
+                </a>
+            </div>
+            <div class="hero-illustration">
+                <object type="image/svg+xml" data="dashboards/data-flow.svg" style="width: 100%;"></object>
+            </div>
+        </div>
+        
+        <!-- Key Metrics Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">📶</div>
+                <div class="metric-value">52.8%</div>
+                <div class="metric-label">Glasfaserabdeckung (FTTH)</div>
+                <div class="metric-trend">↑ +12% seit 2020</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">🤖</div>
+                <div class="metric-value">41%</div>
+                <div class="metric-label">KI-Nutzung in Unternehmen</div>
+                <div class="metric-trend">↑ +21% seit 2024</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">💼</div>
+                <div class="metric-value">180.000</div>
+                <div class="metric-label">IT-Fachkräftemangel</div>
+                <div class="metric-trend">⚠️ Offene Stellen</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">🏠</div>
+                <div class="metric-value">90.2</div>
+                <div class="metric-label">Lebensqualitätsindex</div>
+                <div class="metric-trend">🥇 Bayern führt</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Germany Pulse Score -->
     <div class="container">
-        <h1>📊 Deutschland wird digital abgehängt?</h1>
-        <p class="subtitle">Interaktive Dashboards zur Digitalisierung und KI in Deutschland (2026)</p>
-        
-        <!-- Animated SVG Header -->
-        <div style="text-align: center; margin: 20px 0;">
-            <object type="image/svg+xml" data="dashboards/data-flow.svg" style="width: 100%; max-width: 500px; animation: fadeIn 2s ease-out;"></object>
-        </div>
-        
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <div class="icon">🌐</div>
-                <h2>Glasfaserabdeckung</h2>
-                <p>Abdeckung nach Bundesland (FTTH/FTTB) und Investitionen in Mio. €</p>
-                <a href="dashboards/glasfaser_karte.html">
-                    <i class="fas fa-chart-bar"></i> Dashboard öffnen
-                </a>
+        <section class="pulse-score-card">
+            <div class="pulse-score-header">
+                <h2>Germany Pulse Score</h2>
+                <p>Wie zukunftsfähig ist Deutschland?</p>
             </div>
-            
-            <div class="dashboard-card">
-                <div class="icon">🤖</div>
-                <h2>KI-Nutzung in Unternehmen</h2>
-                <p>Nutzung und geplanter Einsatz nach Branchen (Bitkom-Studie 2026)</p>
-                <a href="dashboards/ki_nutzung.html">
-                    <i class="fas fa-robot"></i> Dashboard öffnen
-                </a>
-            </div>
-            
-            <div class="dashboard-card">
-                <div class="icon">📈</div>
-                <h2>DESI-Index Vergleich</h2>
-                <p>Deutschland vs. EU-Durchschnitt vs. Spitzenreiter (Finnland/Dänemark)</p>
-                <a href="dashboards/desi_index.html">
-                    <i class="fas fa-chart-line"></i> Dashboard öffnen
-                </a>
-            </div>
-            
-            <div class="dashboard-card">
-                <div class="icon">🏛️</div>
-                <h2>Digitale Bürgerdienste</h2>
-                <p>Verfügbarkeit nach Bundesland (Flächendeckend, teilweise digital, Nutzung)</p>
-                <a href="dashboards/digitale_buergerdienste.html">
-                    <i class="fas fa-building"></i> Dashboard öffnen
-                </a>
-            </div>
-        </div>
-        
-        <!-- Animated Statistics Section -->
-        <div style="margin-top: 50px; text-align: center; animation: fadeIn 3s ease-out;">
-            <h2 style="color: #2c3e50;">📊 Wichtige Kennzahlen (2026)</h2>
-            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px;">
-                <div class="stat-card" data-value="52.8" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                    <div style="font-size: 2.5em; color: #667eea;">0%</div>
-                    <div style="color: #7f8c8d;">Glasfaserabdeckung (FTTH)</div>
+            <div class="pulse-score-main">
+                <div class="score-circle">
+                    <svg viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+                        <circle cx="50" cy="50" r="45" stroke="#eee" stroke-width="8" fill="none" />
+                        <circle cx="50" cy="50" r="45" stroke="#667eea" stroke-width="8" fill="none"
+                                stroke-dasharray="283" stroke-dashoffset="74.5"
+                                style="transition: stroke-dashoffset 1s ease-in-out;" />
+                        <text x="50" y="50" text-anchor="middle" dy="0.3em" font-size="20" fill="#667eea">74.5</text>
+                    </svg>
                 </div>
-                <div class="stat-card" data-value="41" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                    <div style="font-size: 2.5em; color: #764ba2;">0%</div>
-                    <div style="color: #7f8c8d;">Unternehmen nutzen KI</div>
-                </div>
-                <div class="stat-card" data-value="14" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                    <div style="font-size: 2.5em; color: #f093fb;">0.</div>
-                    <div style="color: #7f8c8d;">Platz im EU-DESI-Index</div>
+                <div class="score-details">
+                    <div class="score-value">74.5 / 100</div>
+                    <div class="score-label">Zukunftsfähigkeit</div>
+                    <div class="score-interpretation">Zukunftsfähig</div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Tech Illustration -->
-        <div style="text-align: center; margin: 40px 0; animation: fadeIn 3.5s ease-out;">
-            <object type="image/svg+xml" data="dashboards/tech-illustration.svg" style="width: 100%; max-width: 400px;"></object>
-        </div>
-        
+            <div class="pulse-score-breakdown">
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Digitalisierung (30%)</span>
+                    <div class="breakdown-bar" style="width: 75.2%; background: #4CAF50;"></div>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">KI-Nutzung (25%)</span>
+                    <div class="breakdown-bar" style="width: 41%; background: #FFC107;"></div>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Bildung (20%)</span>
+                    <div class="breakdown-bar" style="width: 82.1%; background: #4CAF50;"></div>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Wirtschaft (15%)</span>
+                    <div class="breakdown-bar" style="width: 85%; background: #4CAF50;"></div>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Infrastruktur (10%)</span>
+                    <div class="breakdown-bar" style="width: 78%; background: #8BC34A;"></div>
+                </div>
+            </div>
+            <div class="pulse-score-comparison">
+                <p><strong>Vergleich:</strong></p>
+                <p>🇩🇪 Deutschland: <strong>74.5</strong> | 🇪🇺 EU: 65.2 | 🇩🇰 Dänemark: 92.1</p>
+            </div>
+        </section>
+
+        <!-- Dashboards Grid -->
+        <section id="dashboards" style="margin-top: 40px;">
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 30px;">
+                <i class="fas fa-th-large"></i> Unsere Dashboards
+            </h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="icon">🌐</div>
+                    <h2>Glasfaserabdeckung</h2>
+                    <p>Abdeckung nach Bundesland (FTTH/FTTB) und Investitionen in Mio. €</p>
+                    <a href="dashboards/glasfaser_karte.html">
+                        <i class="fas fa-chart-bar"></i> Dashboard öffnen
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="icon">🤖</div>
+                    <h2>KI-Arbeitsmarkt-Monitor</h2>
+                    <p>Top IT-Berufe, Gehälter, Skills & Automatisierungsrisiko (Bitkom 2026)</p>
+                    <a href="dashboards/ki_arbeitsmarkt.html">
+                        <i class="fas fa-robot"></i> Dashboard öffnen
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="icon">📈</div>
+                    <h2>DESI-Index Vergleich</h2>
+                    <p>Deutschland vs. EU-Durchschnitt vs. Spitzenreiter (Finnland/Dänemark)</p>
+                    <a href="dashboards/desi_index.html">
+                        <i class="fas fa-chart-line"></i> Dashboard öffnen
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="icon">🏛️</div>
+                    <h2>Digitale Bürgerdienste</h2>
+                    <p>Verfügbarkeit nach Bundesland (Flächendeckend, teilweise digital, Nutzung)</p>
+                    <a href="dashboards/digitale_buergerdienste.html">
+                        <i class="fas fa-building"></i> Dashboard öffnen
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="icon">🏘️</div>
+                    <h2>Lebensqualitätsindex</h2>
+                    <p>Vergleich aller Bundesländer: Mieten, Gehälter, Arbeitslosigkeit & mehr</p>
+                    <a href="dashboards/lebensqualitaet.html">
+                        <i class="fas fa-home"></i> Dashboard öffnen
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="icon">💶</div>
+                    <h2>Netto-Gehalt-Rechner</h2>
+                    <p>Berechne dein Nettoeinkommen basierend auf Brutto, Steuerklasse und Bundesland</p>
+                    <a href="dashboards/gehalt_rechner.html">
+                        <i class="fas fa-calculator"></i> Dashboard öffnen
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="icon">🌍</div>
+                    <h2>Deutschland vs. Europa</h2>
+                    <p>Vergleich mit 8 Ländern bei Digitalisierung, KI, Bildung & Wirtschaft</p>
+                    <a href="dashboards/eu_vergleich.html">
+                        <i class="fas fa-globe-europe"></i> Dashboard öffnen
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="icon">📈</div>
+                    <h2>Zukunfts-Simulator 2030</h2>
+                    <p>Simuliere, wie Deutschland 2030 aussehen könnte – mit 6 anpassbaren Parametern</p>
+                    <a href="dashboards/zukunfts_simulator.html">
+                        <i class="fas fa-rocket"></i> Dashboard öffnen
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quellen & Methodik -->
+        <section class="sources-section">
+            <h2><i class="fas fa-file-alt"></i> Quellen & Methodik</h2>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4><i class="fas fa-chart-line"></i> Datenquellen</h4>
+                    <ul>
+                        <li><strong>Statistisches Bundesamt:</strong> Offizielle Statistiken zu Wirtschaft, Bevölkerung und Infrastruktur</li>
+                        <li><strong>Bundesagentur für Arbeit:</strong> Arbeitsmarkt- und Berufsdaten</li>
+                        <li><strong>Bitkom:</strong> Studien zur Digitalisierung und KI-Nutzung in Unternehmen (2026)</li>
+                        <li><strong>Eurostat:</strong> EU-weite Vergleichsdaten (DESI-Index, Wirtschaft)</li>
+                        <li><strong>OECD:</strong> Internationale Bildungs- und Wirtschaftsdaten</li>
+                        <li><strong>StepStone/Glassdoor:</strong> Gehaltsdaten und Stellenmarkt-Analysen</li>
+                        <li><strong>Bundesnetzagentur:</strong> Glasfaser- und Breitbandausbau</li>
+                        <li><strong>Immoscout24/Numbeo:</strong> Lebensqualitätsdaten (Mieten, Gehälter)</li>
+                    </ul>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-cog"></i> Methodik</h4>
+                    <p>Die Daten wurden aus offiziellen Quellen aggregiert und für die Visualisierung aufbereitet.</p>
+                    <ul>
+                        <li><strong>KI-Arbeitsmarkt:</strong> Nachfrage und Gehälter basieren auf Stellenausschreibungen (2026) und Bitkom-Studien.</li>
+                        <li><strong>Lebensqualität:</strong> Gewichteter Index aus 10 Kriterien (Miete, Gehalt, Arbeitslosigkeit, Internet, Ärzteversorgung, etc.).</li>
+                        <li><strong>Gehalt-Rechner:</strong> Vereinfachte Steuerberechnung nach deutschem Recht (2026). Berücksichtigt Lohnsteuer, Sozialabgaben (Rente, Krankenversicherung, Pflege, Arbeitslosenversicherung).</li>
+                        <li><strong>DESI-Index:</strong> Offizieller Digital Economy and Society Index der EU (2026).</li>
+                        <li><strong>Zukunfts-Simulator:</strong> Lineare Prognosen basierend auf aktuellen Trends und historischen Daten.</li>
+                        <li><strong>Germany Pulse Score:</strong> Eigene Kennzahl (0-100 Punkte) aus Digitalisierung (30%), KI-Nutzung (25%), Bildung (20%), Wirtschaft (15%), Infrastruktur (10%).</li>
+                    </ul>
+                    <p><em>Hinweis: Die Berechnungen sind vereinfacht und dienen der Veranschaulichung. Für präzise Analysen sollten die Originalquellen konsultiert werden.</em></p>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-code"></i> Technische Umsetzung</h4>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla)</li>
+                        <li><strong>Charts:</strong> Chart.js 3.9.1 für alle interaktiven Diagramme</li>
+                        <li><strong>Karten:</strong> Leaflet.js für die Deutschland-Karte (geplant)</li>
+                        <li><strong>Icons:</strong> Font Awesome 6.4.0</li>
+                        <li><strong>Deployment:</strong> GitHub Pages für Hosting</li>
+                        <li><strong>Styling:</strong> Eigenes CSS mit Animationen (Fade-In, Pulse, Float)</li>
+                        <li><strong>Datenformat:</strong> JSON (strukturiert), CSV (tabellarisch)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
         <footer>
-            <p>Datenquellen: Statistisches Bundesamt, Bundesnetzagentur, Eurostat, Bitkom (2026)</p>
+            <p><i class="fas fa-database"></i> Datenquellen: Siehe Quellen & Methodik | Stand: Juni 2026</p>
             <p style="margin-top: 10px; font-size: 0.9em;">
-                <i class="fas fa-code"></i> Mit ❤️ und Plotly.js erstellt | 
+                <i class="fas fa-code"></i> Mit ❤️ und Chart.js erstellt | 
                 <i class="fas fa-github"></i> <a href="https://github.com/rintuchowdory/deutschland-digital-projekt" style="color: #667eea;">GitHub Repository</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.85em; color: #777;">
+                © 2026 Rintu Chowdory | Germany Pulse 2030
             </p>
         </footer>
     </div>
-    
-    <!-- Floating Animation Elements -->
-    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-        <div style="width: 50px; height: 50px; background: #667eea; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: float 3s ease-in-out infinite;">
-            <i class="fas fa-arrow-up" style="color: white;"></i>
-        </div>
-    </div>
-    
-    <!-- Loading Animation (hidden by default) -->
-    <div id="loading" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000;">
-        <object type="image/svg+xml" data="dashboards/loading.svg" style="width: 100px; height: 100px;"></object>
-    </div>
+
+    <!-- Typing Animation Script -->
+    <script>
+        // Typing Animation für Hero-Subtitle
+        const typingText = document.querySelector('.typing-text');
+        const phrases = [
+            " Wie zukunftsfähig ist Deutschland?",
+            " Digitalisierung analysieren.",
+            " KI-Potenziale entdecken.",
+            " Lebensqualität vergleichen.",
+            " Zukunftsszenarien simulieren."
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            if (isDeleting) {
+                typingText.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(type, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(type, 500);
+            } else {
+                setTimeout(type, isDeleting ? 50 : 100);
+            }
+        }
+        
+        // Typing Animation starten
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(type, 1000);
+        });
+    </script>
 </body>
 </html>

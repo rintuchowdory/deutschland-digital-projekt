@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 KI-Berufsradar | Germany Pulse 2030</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-robot"></i> KI-Berufsradar</h1>
+            <p class="subtitle">Welche Berufe sind durch KI gefährdet? Welche profitieren?</p>
+        </header>
+
+        <!-- Quellen & Methodik -->
+        <section class="sources-section">
+            <h2><i class="fas fa-file-alt"></i> Quellen & Methodik</h2>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4><i class="fas fa-chart-line"></i> Datenquellen</h4>
+                    <ul>
+                        <li><strong>McKinsey Global Institute:</strong> Studien zu Automatisierungspotenzial von Berufen</li>
+                        <li><strong>World Economic Forum:</strong> "The Future of Jobs Report 2025"</li>
+                        <li><strong>Bundesagentur für Arbeit:</strong> Arbeitsmarktprognosen und Berufsanalysen</li>
+                        <li><strong>Bitkom:</strong> KI-Einsatz in deutschen Unternehmen (2026)</li>
+                        <li><strong>LinkedIn:</strong> Skills- und Berufstrends</li>
+                    </ul>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-cog"></i> Methodik</h4>
+                    <p>Die Einstufung der Berufe basiert auf:</p>
+                    <ul>
+                        <li><strong>Automatisierungsgrad:</strong> Wie viel der Aufgaben kann durch KI/Automatisierung übernommen werden?</li>
+                        <li><strong>Kreativität/Komplexität:</strong> Berufe mit hoher Kreativität oder komplexen Entscheidungen sind schwerer automatisierbar.</li>
+                        <li><strong>Menschliche Interaktion:</strong> Berufe mit hohem Anteil an menschlicher Interaktion (z.B. Pflege, Lehre) sind sicherer.</li>
+                        <li><strong>Datenverfügbarkeit:</strong> Berufe mit vielen strukturierten Daten sind anfälliger für KI.</li>
+                    </ul>
+                    <p><em>Hinweis: Die Einstufungen sind Prognosen und können sich durch technologische Entwicklungen ändern.</em></p>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-code"></i> Technische Umsetzung</h4>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla)</li>
+                        <li><strong>Styling:</strong> Eigenes CSS mit Animationen</li>
+                        <li><strong>Icons:</strong> Font Awesome 6.4.0</li>
+                        <li><strong>Responsive:</strong> Vollständig mobiloptimiert</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="info-box" style="margin: 20px 0; background: #e3f2fd; border-left: 4px solid #2196F3; padding: 15px; border-radius: 5px;">
+            <h4 style="margin-top: 0; color: #1976D2;"><i class="fas fa-info-circle"></i> Wie funktioniert der KI-Berufsradar?</h4>
+            <p style="margin: 0;">
+                Diese Tabelle zeigt, wie stark Berufe durch KI und Automatisierung betroffen sind.
+                <strong>🟢 Grün = sicher</strong>, <strong>🟡 Gelb = teilweise betroffen</strong>,
+                <strong>🟠 Orange = hoch gefährdet</strong>, <strong>🔴 Rot = sehr hoch gefährdet</strong>.
+            </p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Beruf suchen... (z.B. Entwickler, Buchhalter)">
+            <select id="riskFilter">
+                <option value="alle">Alle Risikostufen</option>
+                <option value="niedrig">Niedriges Risiko (🟢)</option>
+                <option value="mittel">Mittleres Risiko (🟡)</option>
+                <option value="hoch">Hohes Risiko (🟠)</option>
+                <option value="sehr hoch">Sehr hohes Risiko (🔴)</option>
+            </select>
+            <select id="sortBy">
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="risk-asc">Risiko (niedrig → hoch)</option>
+                <option value="risk-desc">Risiko (hoch → niedrig)</option>
+                <option value="automation">Automatisierungsgrad</option>
+            </select>
+        </div>
+
+        <table class="berufs-table">
+            <thead>
+                <tr>
+                    <th>Beruf</th>
+                    <th>Branche</th>
+                    <th>KI-Risiko</th>
+                    <th>Automatisierung</th>
+                    <th>Gründe</th>
+                    <th>Zukunftsaussicht</th>
+                </tr>
+            </thead>
+            <tbody id="berufsTableBody">
+                <!-- Wird per JavaScript gefüllt -->
+            </tbody>
+        </table>
+
+        <footer>
+            <p><i class="fas fa-database"></i> Datenquellen: McKinsey, World Economic Forum, Bundesagentur für Arbeit (2026)</p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-code"></i> Mit ❤️ und JavaScript erstellt | 
+                <i class="fas fa-github"></i> <a href="https://github.com/rintuchowdory/deutschland-digital-projekt" style="color: #667eea;">GitHub Repository</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Berufsdaten
+        const berufe = [
+            { name: "KI-Entwickler", branche: "IT", risk: "niedrig", automation: 10, gruende: "KI-Systeme entwickeln und trainieren", zukunft: "↑↑ Sehr hoch" },
+            { name: "Data Scientist", branche: "IT", risk: "niedrig", automation: 15, gruende: "Daten analysieren und Modelle erstellen", zukunft: "↑↑ Sehr hoch" },
+            { name: "Cloud-Architekt", branche: "IT", risk: "niedrig", automation: 20, gruende: "Cloud-Infrastrukturen designen", zukunft: "↑↑ Sehr hoch" },
+            { name: "DevOps Engineer", branche: "IT", risk: "niedrig", automation: 25, gruende: "CI/CD-Pipelines automatisieren", zukunft: "↑↑ Sehr hoch" },
+            { name: "Cybersecurity-Experte", branche: "IT", risk: "niedrig", automation: 10, gruende: "Sicherheitslücken erkennen und schließen", zukunft: "↑↑ Sehr hoch" },
+            { name: "Softwareentwickler", branche: "IT", risk: "mittel", automation: 30, gruende: "Code schreiben, aber KI unterstützt", zukunft: "↑ Hoch" },
+            { name: "IT-Berater", branche: "IT", risk: "mittel", automation: 20, gruende: "Komplexe Projekte erfordern menschliche Expertise", zukunft: "↑ Hoch" },
+            { name: "Systemadministrator", branche: "IT", risk: "mittel", automation: 40, gruende: "Wartung und Sicherheit bleiben wichtig", zukunft: "→ Stabil" },
+            { name: "Bürokaufmann", branche: "Verwaltung", risk: "sehr hoch", automation: 90, gruende: "RPA übernimmt Aufgaben", zukunft: "↓↓ Stark rückläufig" },
+            { name: "Einfache Buchhaltung", branche: "Finanzen", risk: "sehr hoch", automation: 95, gruende: "KI-basierte Buchhaltungssoftware", zukunft: "↓↓ Stark rückläufig" },
+            { name: "Callcenter-Agent", branche: "Dienstleistung", risk: "hoch", automation: 85, gruende: "Chatbots und Sprach-KI", zukunft: "↓ Rückläufig" },
+            { name: "Daten-Eingabekraft", branche: "Verwaltung", risk: "sehr hoch", automation: 98, gruende: "Automatisierte Datenerfassung", zukunft: "↓↓ Stark rückläufig" },
+            { name: "Lagerarbeiter", branche: "Logistik", risk: "hoch", automation: 80, gruende: "Automatisierung durch Roboter", zukunft: "↓ Rückläufig" },
+            { name: "Fabrikarbeiter", branche: "Industrie", risk: "hoch", automation: 75, gruende: "Industrie 4.0 und Roboter", zukunft: "↓ Rückläufig" },
+            { name: "Übersetzer", branche: "Sprachen", risk: "sehr hoch", automation: 90, gruende: "KI-Übersetzungstools", zukunft: "↓↓ Stark rückläufig" },
+            { name: "Journalist", branche: "Medien", risk: "hoch", automation: 70, gruende: "KI-generierte Texte", zukunft: "↓ Rückläufig" },
+            { name: "Grafikdesigner", branche: "Kreativ", risk: "mittel", automation: 50, gruende: "KI-Tools unterstützen Design", zukunft: "→ Stabil" },
+            { name: "Lehrer", branche: "Bildung", risk: "niedrig", automation: 5, gruende: "Menschliche Interaktion bleibt entscheidend", zukunft: "↑↑ Sehr hoch" },
+            { name: "Pflegekraft", branche: "Gesundheit", risk: "niedrig", automation: 5, gruende: "Menschliche Fürsorge nicht ersetzbar", zukunft: "↑↑ Sehr hoch" },
+            { name: "Arzt", branche: "Gesundheit", risk: "niedrig", automation: 10, gruende: "KI unterstützt Diagnosen", zukunft: "↑↑ Sehr hoch" },
+            { name: "Handwerker", branche: "Bau", risk: "mittel", automation: 30, gruende: "KI unterstützt Planung", zukunft: "↑ Hoch" },
+            { name: "Anwalt", branche: "Recht", risk: "mittel", automation: 40, gruende: "KI analysiert Verträge", zukunft: "→ Stabil" },
+            { name: "Projektmanager", branche: "Management", risk: "mittel", automation: 35, gruende: "KI unterstützt Planung und Tracking", zukunft: "↑ Hoch" },
+            { name: "Marketing-Manager", branche: "Marketing", risk: "mittel", automation: 45, gruende: "KI-Tools für Kampagnenanalyse", zukunft: "↑ Hoch" },
+            { name: "Datenbankadministrator", branche: "IT", risk: "mittel", automation: 50, gruende: "KI unterstützt Wartung", zukunft: "→ Stabil" },
+            { name: "Netzwerktechniker", branche: "IT", risk: "mittel", automation: 40, gruende: "KI unterstützt Monitoring", zukunft: "→ Stabil" }
+        ];
+
+        // Risiko-Klassen
+        const riskClasses = {
+            "niedrig": "risk-low",
+            "mittel": "risk-medium", 
+            "hoch": "risk-high",
+            "sehr hoch": "risk-very-high"
+        };
+
+        const riskLabels = {
+            "niedrig": "🟢 Niedrig",
+            "mittel": "🟡 Mittel",
+            "hoch": "🟠 Hoch",
+            "sehr hoch": "🔴 Sehr hoch"
+        };
+
+        const riskColors = {
+            "niedrig": "#4CAF50",
+            "mittel": "#FFC107",
+            "hoch": "#FF5722",
+            "sehr hoch": "#F44336"
+        };
+
+        // Tabelle füllen
+        function renderTable(data) {
+            const tbody = document.getElementById('berufsTableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(beruf => {
+                const row = document.createElement('tr');
+
+                // Highlight bei Suchtreffer
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                if (searchTerm && (
+                    beruf.name.toLowerCase().includes(searchTerm) ||
+                    beruf.branche.toLowerCase().includes(searchTerm) ||
+                    beruf.gruende.toLowerCase().includes(searchTerm)
+                )) {
+                    row.classList.add('highlight');
+                }
+
+                row.innerHTML = `
+                    <td><strong>${beruf.name}</strong></td>
+                    <td>${beruf.branche}</td>
+                    <td><span class="risk-badge ${riskClasses[beruf.risk]}" style="background-color: ${riskColors[beruf.risk]};">${riskLabels[beruf.risk]}</span></td>
+                    <td>${beruf.automation}%</td>
+                    <td>${beruf.gruende}</td>
+                    <td>${beruf.zukunft}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Filter und Sortierung
+        function filterAndSort() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const riskFilter = document.getElementById('riskFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let filtered = berufe.filter(beruf => {
+                // Suche
+                const matchesSearch = !searchTerm ||
+                    beruf.name.toLowerCase().includes(searchTerm) ||
+                    beruf.branche.toLowerCase().includes(searchTerm) ||
+                    beruf.gruende.toLowerCase().includes(searchTerm);
+
+                // Risiko-Filter
+                const matchesRisk = riskFilter === 'alle' || beruf.risk === riskFilter;
+
+                return matchesSearch && matchesRisk;
+            });
+
+            // Sortierung
+            if (sortBy === 'name-asc') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortBy === 'name-desc') {
+                filtered.sort((a, b) => b.name.localeCompare(a.name));
+            } else if (sortBy === 'risk-asc') {
+                const riskOrder = { "niedrig": 1, "mittel": 2, "hoch": 3, "sehr hoch": 4 };
+                filtered.sort((a, b) => riskOrder[a.risk] - riskOrder[b.risk]);
+            } else if (sortBy === 'risk-desc') {
+                const riskOrder = { "niedrig": 1, "mittel": 2, "hoch": 3, "sehr hoch": 4 };
+                filtered.sort((a, b) => riskOrder[b.risk] - riskOrder[a.risk]);
+            } else if (sortBy === 'automation') {
+                filtered.sort((a, b) => b.automation - a.automation);
+            }
+
+            renderTable(filtered);
+        }
+
+        // Event Listener
+        document.getElementById('searchInput').addEventListener('input', filterAndSort);
+        document.getElementById('riskFilter').addEventListener('change', filterAndSort);
+        document.getElementById('sortBy').addEventListener('change', filterAndSort);
+
+        // Initial rendern
+        filterAndSort();
+    </script>
+</body>
+</html>

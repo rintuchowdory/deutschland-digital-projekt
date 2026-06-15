@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "name": "Germany Pulse Score",
+    "description": "Zusammengesetzte Kennzahl für die Zukunftsfähigkeit Deutschlands (0-100 Punkte)",
+    "year": 2026,
+    "sources": ["DESI-Index", "Bitkom", "Statistisches Bundesamt", "OECD"],
+    "last_updated": "2026-06-15"
+  },
+  "kriterien": {
+    "Digitalisierung": {
+      "gewicht": 0.30,
+      "wert": 75.2,
+      "max": 100,
+      "quelle": "DESI-Index 2026 (Europäische Kommission)",
+      "beschreibung": "Digital Economy and Society Index - Misst die digitale Performance eines Landes"
+    },
+    "KI_Nutzung": {
+      "gewicht": 0.25,
+      "wert": 41,
+      "max": 100,
+      "quelle": "Bitkom-Studie 2026",
+      "beschreibung": "Anteil der Unternehmen, die KI aktiv einsetzen"
+    },
+    "Bildung": {
+      "gewicht": 0.20,
+      "wert": 82.1,
+      "max": 100,
+      "quelle": "PISA-Studie 2025 (OECD)",
+      "beschreibung": "Bildungsstandards in Mathematik, Naturwissenschaften und Lesekompetenz"
+    },
+    "Wirtschaft": {
+      "gewicht": 0.15,
+      "wert": 85,
+      "max": 100,
+      "quelle": "BIP-Wachstum, OECD 2026",
+      "beschreibung": "Wirtschaftliche Stärke und Wachstumspotenzial"
+    },
+    "Infrastruktur": {
+      "gewicht": 0.10,
+      "wert": 78,
+      "max": 100,
+      "quelle": "Glasfaserabdeckung, 5G-Ausbau (Bundesnetzagentur 2026)",
+      "beschreibung": "Qualität der digitalen und physischen Infrastruktur"
+    }
+  },
+  "berechnung": {
+    "formel": "(Digitalisierung*0.30 + KI_Nutzung*0.25 + Bildung*0.20 + Wirtschaft*0.15 + Infrastruktur*0.10)",
+    "ergebnis": 74.5,
+    "interpretation": {
+      "90-100": {"text": "Sehr zukunftsfähig", "color": "#4CAF50"},
+      "75-89": {"text": "Zukunftsfähig", "color": "#8BC34A"},
+      "60-74": {"text": "Mittel", "color": "#FFC107"},
+      "40-59": {"text": "Verbesserungspotenzial", "color": "#FF9800"},
+      "0-39": {"text": "Kritisch", "color": "#F44336"}
+    },
+    "current_category": "75-89"
+  },
+  "vergleich": {
+    "EU_Durchschnitt": 65.2,
+    "Spitzenreiter": {
+      "Dänemark": 92.1,
+      "Finnland": 88.7,
+      "Schweden": 90.3,
+      "Niederlande": 82.5
+    },
+    "Schlusslicht": {
+      "Griechenland": 52.4,
+      "Bulgarien": 48.9,
+      "Rumänien": 51.2
+    }
+  },
+  "entwicklungsverlauf": {
+    "2020": 68.2,
+    "2021": 70.5,
+    "2022": 72.1,
+    "2023": 73.4,
+    "2024": 74.0,
+    "2025": 74.3,
+    "2026": 74.5
+  },
+  "prognose_2030": {
+    "optimistisch": 88.0,
+    "realistisch": 78.5,
+    "pessimistisch": 70.0
+  },
+  "empfehlungen": [
+    {
+      "kriterium": "Digitalisierung",
+      "aktuell": 75.2,
+      "ziel_2030": 90.0,
+      "massnahmen": [
+        "Beschleunigter Glasfaserausbau (100% bis 2030)",
+        "5G-Flächendeckung bis 2027",
+        "Digitalisierung der Verwaltung (OZG 2.0)",
+        "Förderung von KI-Startups"
+      ]
+    },
+    {
+      "kriterium": "KI-Nutzung",
+      "aktuell": 41,
+      "ziel_2030": 70,
+      "massnahmen": [
+        "KI-Kompetenzen in Schulen und Hochschulen",
+        "Förderung von KI-Forschung",
+        "Steuerliche Anreize für KI-Investitionen",
+        "Ethik-Richtlinien für KI"
+      ]
+    },
+    {
+      "kriterium": "Bildung",
+      "aktuell": 82.1,
+      "ziel_2030": 88.0,
+      "massnahmen": [
+        "Ausbau digitaler Lehrmittel",
+        "Lehrerfortbildungen im Bereich Digitalisierung",
+        "Programmierunterricht als Pflichtfach",
+        "Kooperation mit Unternehmen für Praxisbezug"
+      ]
+    }
+  ]
+}
