@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 KI-Arbeitsmarkt-Monitor | Germany Pulse 2030</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --warning: #FFC107;
+            --info: #2196F3;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            margin: 10px 0 0;
+        }
+        
+        .chart-container {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.3em;
+            color: var(--dark);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        .filter-section {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .filter-section h3 {
+            margin-top: 0;
+            color: var(--dark);
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: var(--secondary);
+        }
+        
+        .skill-tag {
+            display: inline-block;
+            background: var(--light);
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+        
+        .skill-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .grow {
+            color: var(--success);
+        }
+        
+        .shrink {
+            color: var(--danger);
+        }
+        
+        .stable {
+            color: var(--warning);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                padding: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-robot"></i> KI-Arbeitsmarkt-Monitor</h1>
+            <p class="subtitle">Welche Jobs wachsen? Welche werden automatisiert? Top IT-Berufe, Gehälter & Skills in Deutschland (2026)</p>
+        </header>
+        
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h3><i class="fas fa-filter"></i> Filter & Sortierung</h3>
+            <div>
+                <label for="sortBy">Sortieren nach:</label>
+                <select id="sortBy" onchange="updateCharts()">
+                    <option value="nachfrage">Nachfrage (%)</option>
+                    <option value="gehalt">Gehalt (€)</option>
+                    <option value="wachstum">Wachstum (%)</option>
+                </select>
+                
+                <label for="branchFilter">Branche:</label>
+                <select id="branchFilter" onchange="updateCharts()">
+                    <option value="alle">Alle</option>
+                    <option value="IT">IT</option>
+                    <option value="Finanzen">Finanzen</option>
+                    <option value="Forschung">Forschung</option>
+                    <option value="Gesundheitswesen">Gesundheitswesen</option>
+                </select>
+                
+                <button onclick="resetFilters()"><i class="fas fa-redo"></i> Zurücksetzen</button>
+            </div>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalJobs">0</div>
+                <div class="stat-label">IT-Berufe analysiert</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgSalary">0€</div>
+                <div class="stat-label">Durchschnittsgehalt</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="highestDemand">0%</div>
+                <div class="stat-label">Höchste Nachfrage</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="growingJobs">0</div>
+                <div class="stat-label">Jobs mit Wachstum</div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Daten werden geladen...</p>
+        </div>
+        
+        <!-- Top 20 IT-Berufe Chart -->
+        <div class="chart-container">
+            <h2 class="chart-title">📈 Top IT-Berufe: Nachfrage & Wachstum</h2>
+            <canvas id="topBerufeChart"></canvas>
+        </div>
+        
+        <!-- Gehaltsentwicklung Chart -->
+        <div class="chart-container">
+            <h2 class="chart-title">💰 Gehaltsentwicklung (2020–2026)</h2>
+            <canvas id="gehaltChart"></canvas>
+        </div>
+        
+        <!-- Skills Section -->
+        <div class="chart-container">
+            <h2 class="chart-title">🔧 Gefragteste Skills 2026</h2>
+            <div id="skillsCloud"></div>
+        </div>
+        
+        <!-- Wachstum vs. Automatisierung Chart -->
+        <div class="chart-container">
+            <h2 class="chart-title">📊 Jobs: Wachstum vs. Automatisierungsrisiko</h2>
+            <canvas id="automatisierungChart"></canvas>
+        </div>
+        
+        <!-- Branchen-Nachfrage Chart -->
+        <div class="chart-container">
+            <h2 class="chart-title">🏢 Nachfrage nach Branchen</h2>
+            <canvas id="branchenChart"></canvas>
+        </div>
+        
+        <footer>
+            <p><i class="fas fa-database"></i> Datenquellen: Bundesagentur für Arbeit, StepStone, Glassdoor, Bitkom (2026)</p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-code"></i> Mit ❤️ und Chart.js erstellt | 
+                <i class="fas fa-github"></i> <a href="https://github.com/rintuchowdory/deutschland-digital-projekt" style="color: var(--primary);">GitHub Repository</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Globale Variable für die Daten
+        let kiDaten = {};
+        let filteredBerufe = [];
+        
+        // Daten laden
+        fetch('../data/ki_arbeitsmarkt.json')
+            .then(response => response.json())
+            .then(data => {
+                kiDaten = data;
+                filteredBerufe = [...data.top_berufe];
+                updateStats();
+                createCharts();
+                document.getElementById('loading').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden der Daten:', error);
+                document.getElementById('loading').innerHTML = '<p style="color: red;">Fehler beim Laden der Daten. Bitte lade die Seite neu.</p>';
+            });
+        
+        // Statistiken aktualisieren
+        function updateStats() {
+            document.getElementById('totalJobs').textContent = filteredBerufe.length;
+            
+            const avgSalary = (filteredBerufe.reduce((sum, beruf) => sum + beruf.gehalt, 0) / filteredBerufe.length).toLocaleString();
+            document.getElementById('avgSalary').textContent = avgSalary + '€';
+            
+            const highestDemand = Math.max(...filteredBerufe.map(b => b.nachfrage));
+            document.getElementById('highestDemand').textContent = highestDemand + '%';
+            
+            const growingJobs = filteredBerufe.filter(b => b.zukunftsaussicht === 'Sehr hoch' || b.zukunftsaussicht === 'Hoch').length;
+            document.getElementById('growingJobs').textContent = growingJobs;
+        }
+        
+        // Charts erstellen
+        function createCharts() {
+            createTopBerufeChart();
+            createGehaltChart();
+            createSkillsCloud();
+            createAutomatisierungChart();
+            createBranchenChart();
+        }
+        
+        // Top 20 IT-Berufe Chart
+        function createTopBerufeChart() {
+            const ctx = document.getElementById('topBerufeChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: filteredBerufe.map(b => b.beruf),
+                    datasets: [{
+                        label: 'Nachfrage (%)',
+                        data: filteredBerufe.map(b => b.nachfrage),
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Wachstum (%)',
+                        data: filteredBerufe.map(b => b.wachstum),
+                        backgroundColor: 'rgba(118, 75, 162, 0.7)',
+                        borderColor: 'rgba(118, 75, 162, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const beruf = filteredBerufe[context.dataIndex];
+                                    let label = context.dataset.label + ': ' + context.raw;
+                                    if (context.datasetIndex === 0) label += '%';
+                                    if (context.datasetIndex === 1) label += '% Wachstum';
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: false,
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Nachfrage (%)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Wachstum (%)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Gehaltsentwicklung Chart
+        function createGehaltChart() {
+            const ctx = document.getElementById('gehaltChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            const years = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+            const topBerufe = filteredBerufe.slice(0, 5);
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years.slice(0, 6),
+                    datasets: topBerufe.map((beruf, index) => ({
+                        label: beruf.beruf,
+                        data: kiDaten.gehalt_entwicklung[beruf.beruf],
+                        borderColor: `hsl(${index * 60}, 70%, 50%)`,
+                        backgroundColor: `hsla(${index * 60}, 70%, 50%, 0.2)`,
+                        tension: 0.3,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw.toLocaleString() + '€';
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Durchschnittsgehalt (€)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + '€';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Skills Cloud
+        function createSkillsCloud() {
+            const container = document.getElementById('skillsCloud');
+            container.innerHTML = '';
+            
+            kiDaten.skills.sort((a, b) => b.haeufigkeit - a.haeufigkeit).forEach(skill => {
+                const size = 0.8 + (skill.haeufigkeit / 100);
+                const element = document.createElement('span');
+                element.textContent = `${skill.skill} (${skill.haeufigkeit}%)`;
+                element.style.fontSize = `${size}em`;
+                element.style.margin = '8px';
+                element.style.display = 'inline-block';
+                element.style.padding = '5px 10px';
+                element.style.backgroundColor = `hsla(${Math.random() * 360}, 70%, 80%, 0.3)`;
+                element.style.borderRadius = '20px';
+                element.style.color = '#333';
+                element.style.transition = 'all 0.3s';
+                element.style.cursor = 'pointer';
+                
+                element.addEventListener('mouseover', () => {
+                    element.style.transform = 'scale(1.2)';
+                    element.style.backgroundColor = `hsla(${Math.random() * 360}, 70%, 60%, 0.5)`;
+                });
+                
+                element.addEventListener('mouseout', () => {
+                    element.style.transform = 'scale(1)';
+                    element.style.backgroundColor = `hsla(${Math.random() * 360}, 70%, 80%, 0.3)`;
+                });
+                
+                container.appendChild(element);
+            });
+        }
+        
+        // Wachstum vs. Automatisierung Chart
+        function createAutomatisierungChart() {
+            const ctx = document.getElementById('automatisierungChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            const wachsen = kiDaten.automatisierung.wachsen.map(item => item.beruf);
+            const schrumpfen = kiDaten.automatisierung.schrumpfen.map(item => item.beruf);
+            const stabil = kiDaten.automatisierung.stabil.map(item => item.beruf);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [...wachsen, ...stabil, ...schrumpfen],
+                    datasets: [{
+                        label: 'Wachstum',
+                        data: wachsen.map(() => 100),
+                        backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Stabil',
+                        data: stabil.map(() => 50),
+                        backgroundColor: 'rgba(255, 193, 7, 0.7)',
+                        borderColor: 'rgba(255, 193, 7, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Automatisierungsrisiko',
+                        data: schrumpfen.map(() => 0),
+                        backgroundColor: 'rgba(244, 67, 54, 0.7)',
+                        borderColor: 'rgba(244, 67, 54, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        title: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label;
+                                    if (label === 'Wachstum') return '↑↑ Wächst stark';
+                                    if (label === 'Stabil') return '→ Stabil';
+                                    if (label === 'Automatisierungsrisiko') return '↓↓ Automatisierungsrisiko';
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            min: -20,
+                            max: 120,
+                            ticks: {
+                                callback: function(value) {
+                                    if (value === 100) return 'Wächst';
+                                    if (value === 50) return 'Stabil';
+                                    if (value === 0) return 'Risiko';
+                                    return '';
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Branchen-Nachfrage Chart
+        function createBranchenChart() {
+            const ctx = document.getElementById('branchenChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            const branchen = Object.keys(kiDaten.branchen_nachfrage);
+            const nachfrage = Object.values(kiDaten.branchen_nachfrage);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: branchen,
+                    datasets: [{
+                        label: 'Nachfrage (%)',
+                        data: nachfrage,
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Nachfrage: ' + context.raw + '%';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nachfrage (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Filter aktualisieren
+        function updateCharts() {
+            const sortBy = document.getElementById('sortBy').value;
+            const branchFilter = document.getElementById('branchFilter').value;
+            
+            // Filtern nach Branche
+            filteredBerufe = kiDaten.top_berufe.filter(beruf => {
+                if (branchFilter === 'alle') return true;
+                return beruf.branchen.includes(branchFilter);
+            });
+            
+            // Sortieren
+            if (sortBy === 'nachfrage') {
+                filteredBerufe.sort((a, b) => b.nachfrage - a.nachfrage);
+            } else if (sortBy === 'gehalt') {
+                filteredBerufe.sort((a, b) => b.gehalt - a.gehalt);
+            } else if (sortBy === 'wachstum') {
+                filteredBerufe.sort((a, b) => b.wachstum - a.wachstum);
+            }
+            
+            updateStats();
+            createCharts();
+        }
+        
+        // Filter zurücksetzen
+        function resetFilters() {
+            document.getElementById('sortBy').value = 'nachfrage';
+            document.getElementById('branchFilter').value = 'alle';
+            filteredBerufe = [...kiDaten.top_berufe];
+            updateStats();
+            createCharts();
+        }
+    </script>
+</body>
+</html>

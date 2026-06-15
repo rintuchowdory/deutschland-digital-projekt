@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "jahr": 2026,
+    "quellen": ["Bundesagentur für Arbeit", "StepStone", "Glassdoor", "Bitkom"],
+    "letzte_aktualisierung": "2026-06-15",
+    "beschreibung": "Daten zu Nachfrage, Gehältern und Skills im KI-Arbeitsmarkt Deutschland"
+  },
+  "top_berufe": [
+    {
+      "beruf": "KI-Entwickler",
+      "nachfrage": 85,
+      "gehalt": 75000,
+      "wachstum": 120,
+      "skills": ["Python", "TensorFlow", "PyTorch", "Machine Learning", "Neural Networks"],
+      "branchen": ["IT", "Forschung", "Finanzen", "Gesundheitswesen"],
+      "zukunftsaussicht": "Sehr hoch",
+      "automatisierungsrisiko": "Niedrig"
+    },
+    {
+      "beruf": "Data Scientist",
+      "nachfrage": 92,
+      "gehalt": 72000,
+      "wachstum": 110,
+      "skills": ["Python", "SQL", "R", "Data Visualization", "Statistik"],
+      "branchen": ["IT", "Gesundheit", "E-Commerce", "Logistik"],
+      "zukunftsaussicht": "Sehr hoch",
+      "automatisierungsrisiko": "Niedrig"
+    },
+    {
+      "beruf": "Cloud-Architekt",
+      "nachfrage": 88,
+      "gehalt": 80000,
+      "wachstum": 95,
+      "skills": ["AWS", "Azure", "Kubernetes", "Docker", "Terraform"],
+      "branchen": ["IT", "Finanzen", "Industrie", "Telekommunikation"],
+      "zukunftsaussicht": "Hoch",
+      "automatisierungsrisiko": "Niedrig"
+    },
+    {
+      "beruf": "DevOps Engineer",
+      "nachfrage": 82,
+      "gehalt": 70000,
+      "wachstum": 105,
+      "skills": ["Docker", "Kubernetes", "CI/CD", "Linux", "Ansible"],
+      "branchen": ["IT", "E-Commerce", "FinTech", "Industrie"],
+      "zukunftsaussicht": "Hoch",
+      "automatisierungsrisiko": "Niedrig"
+    },
+    {
+      "beruf": "Cybersecurity-Experte",
+      "nachfrage": 78,
+      "gehalt": 78000,
+      "wachstum": 130,
+      "skills": ["SIEM", "Penetration Testing", "ISO 27001", "Ethical Hacking", "Firewalls"],
+      "branchen": ["IT", "Behörden", "Finanzen", "Gesundheitswesen"],
+      "zukunftsaussicht": "Sehr hoch",
+      "automatisierungsrisiko": "Niedrig"
+    },
+    {
+      "beruf": "Data Engineer",
+      "nachfrage": 80,
+      "gehalt": 68000,
+      "wachstum": 115,
+      "skills": ["Python", "SQL", "Spark", "Hadoop", "ETL"],
+      "branchen": ["IT", "Finanzen", "E-Commerce", "Logistik"],
+      "zukunftsaussicht": "Hoch",
+      "automatisierungsrisiko": "Niedrig"
+    },
+    {
+      "beruf": "Machine Learning Engineer",
+      "nachfrage": 75,
+      "gehalt": 73000,
+      "wachstum": 125,
+      "skills": ["Python", "TensorFlow", "PyTorch", "MLOps", "Data Pipelines"],
+      "branchen": ["IT", "Forschung", "Automobil", "Gesundheitswesen"],
+      "zukunftsaussicht": "Sehr hoch",
+      "automatisierungsrisiko": "Niedrig"
+    },
+    {
+      "beruf": "Softwareentwickler",
+      "nachfrage": 70,
+      "gehalt": 65000,
+      "wachstum": 80,
+      "skills": ["JavaScript", "Python", "Java", "C#", "React"],
+      "branchen": ["IT", "Finanzen", "E-Commerce", "Industrie"],
+      "zukunftsaussicht": "Stabil",
+      "automatisierungsrisiko": "Mittel"
+    },
+    {
+      "beruf": "IT-Berater",
+      "nachfrage": 65,
+      "gehalt": 62000,
+      "wachstum": 70,
+      "skills": ["Projektmanagement", "Agile Methoden", "Cloud", "Digitalisierung"],
+      "branchen": ["IT", "Finanzen", "Öffentlicher Sektor"],
+      "zukunftsaussicht": "Stabil",
+      "automatisierungsrisiko": "Mittel"
+    },
+    {
+      "beruf": "Systemadministrator",
+      "nachfrage": 60,
+      "gehalt": 58000,
+      "wachstum": 50,
+      "skills": ["Linux", "Windows Server", "Netzwerke", "Sicherheit"],
+      "branchen": ["IT", "Öffentlicher Sektor", "Industrie"],
+      "zukunftsaussicht": "Stabil",
+      "automatisierungsrisiko": "Mittel"
+    }
+  ],
+  "automatisierung": {
+    "wachsen": [
+      {"beruf": "KI-Entwickler", "grund": "Hohe Nachfrage nach KI-Lösungen in allen Branchen"},
+      {"beruf": "Data Scientist", "grund": "Datenanalyse als Grundlage für Entscheidungen"},
+      {"beruf": "Cloud-Architekt", "grund": "Migration in die Cloud beschleunigt sich"},
+      {"beruf": "DevOps Engineer", "grund": "Automatisierung von Deployment-Prozessen"},
+      {"beruf": "Cybersecurity-Experte", "grund": "Zunehmende Cyber-Bedrohungen erfordern mehr Sicherheit"},
+      {"beruf": "Machine Learning Engineer", "grund": "KI wird in immer mehr Bereichen eingesetzt"},
+      {"beruf": "Data Engineer", "grund": "Datenpipelines sind Grundlage für KI und Analysen"}
+    ],
+    "schrumpfen": [
+      {"beruf": "Bürokaufmann", "grund": "Automatisierung durch RPA (Robotic Process Automation)"},
+      {"beruf": "Einfache Buchhaltung", "grund": "KI-basierte Buchhaltungssoftware (z.B. Datev, Lexoffice)"},
+      {"beruf": "Callcenter-Agent", "grund": "Ersatz durch Chatbots und Sprach-KI (z.B. von Nuance, Google)"},
+      {"beruf": "Daten-Eingabekraft", "grund": "Automatisierte Datenerfassung durch OCR und KI"},
+      {"beruf": "Lagerarbeiter", "grund": "Automatisierung durch Roboter und autonome Systeme"}
+    ],
+    "stabil": [
+      {"beruf": "Softwareentwickler", "grund": "Hohe Nachfrage, aber auch Teilautomatisierung durch Low-Code"},
+      {"beruf": "IT-Berater", "grund": "Komplexe Projekte erfordern menschliche Expertise"},
+      {"beruf": "Systemadministrator", "grund": "Wartung und Sicherheit bleiben wichtig"}
+    ]
+  },
+  "skills": [
+    {"skill": "Python", "haeufigkeit": 95, "kategorie": "Programmierung", "nachfrage_trend": "↑↑"},
+    {"skill": "AWS", "haeufigkeit": 92, "kategorie": "Cloud", "nachfrage_trend": "↑↑"},
+    {"skill": "Docker", "haeufigkeit": 88, "kategorie": "DevOps", "nachfrage_trend": "↑↑"},
+    {"skill": "Kubernetes", "haeufigkeit": 85, "kategorie": "DevOps", "nachfrage_trend": "↑↑"},
+    {"skill": "TensorFlow", "haeufigkeit": 80, "kategorie": "KI/ML", "nachfrage_trend": "↑↑"},
+    {"skill": "SQL", "haeufigkeit": 75, "kategorie": "Datenbanken", "nachfrage_trend": "↑"},
+    {"skill": "JavaScript", "haeufigkeit": 70, "kategorie": "Webentwicklung", "nachfrage_trend": "↑"},
+    {"skill": "Cloud Computing", "haeufigkeit": 65, "kategorie": "Infrastruktur", "nachfrage_trend": "↑↑"},
+    {"skill": "Machine Learning", "haeufigkeit": 60, "kategorie": "KI/ML", "nachfrage_trend": "↑↑"},
+    {"skill": "Data Analysis", "haeufigkeit": 55, "kategorie": "Daten", "nachfrage_trend": "↑"},
+    {"skill": "React", "haeufigkeit": 50, "kategorie": "Webentwicklung", "nachfrage_trend": "↑"},
+    {"skill": "TypeScript", "haeufigkeit": 45, "kategorie": "Webentwicklung", "nachfrage_trend": "↑↑"},
+    {"skill": "Git", "haeufigkeit": 40, "kategorie": "Versionierung", "nachfrage_trend": "↑"},
+    {"skill": "Linux", "haeufigkeit": 35, "kategorie": "Systeme", "nachfrage_trend": "→"},
+    {"skill": "Agile Methoden", "haeufigkeit": 30, "kategorie": "Projektmanagement", "nachfrage_trend": "↑"}
+  ],
+  "gehalt_entwicklung": {
+    "KI-Entwickler": [60000, 65000, 70000, 72000, 75000, 78000],
+    "Data Scientist": [55000, 60000, 65000, 68000, 72000, 75000],
+    "Cloud-Architekt": [65000, 70000, 75000, 78000, 80000, 82000],
+    "DevOps Engineer": [58000, 62000, 65000, 68000, 70000, 72000],
+    "Cybersecurity-Experte": [60000, 65000, 70000, 75000, 78000, 80000],
+    "Machine Learning Engineer": [62000, 67000, 70000, 72000, 73000, 75000]
+  },
+  "branchen_nachfrage": {
+    "IT": 95,
+    "Finanzen": 85,
+    "Forschung": 80,
+    "Gesundheitswesen": 75,
+    "E-Commerce": 70,
+    "Industrie": 65,
+    "Öffentlicher Sektor": 60,
+    "Logistik": 55,
+    "Automobil": 50,
+    "Telekommunikation": 45
+  }
+}
