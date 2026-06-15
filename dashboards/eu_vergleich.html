@@ -5,225 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌍 Deutschland vs. Europa | Germany Pulse 2030</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2196F3;
-            --secondary: #03A9F4;
-            --success: #4CAF50;
-            --danger: #f44336;
-            --warning: #FFC107;
-            --info: #00BCD4;
-            --light: #f8f9fa;
-            --dark: #343a40;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: var(--dark);
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin: 0;
-        }
-        
-        .subtitle {
-            color: var(--secondary);
-            margin: 10px 0 0;
-        }
-        
-        .chart-container {
-            background: white;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .chart-title {
-            font-size: 1.3em;
-            color: var(--dark);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-        }
-        
-        .country-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .country-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        
-        .country-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        
-        .country-flag {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        
-        .country-name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        .country-stat {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-            padding: 5px;
-            background: #f5f5f5;
-            border-radius: 5px;
-        }
-        
-        .stat-label {
-            font-weight: bold;
-            color: var(--secondary);
-        }
-        
-        .stat-value {
-            color: var(--dark);
-        }
-        
-        .rank-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-            margin-left: 10px;
-        }
-        
-        .rank-1 { background-color: #FFD700; color: #000; }
-        .rank-2 { background-color: #C0C0C0; color: #000; }
-        .rank-3 { background-color: #CD7F32; color: #fff; }
-        
-        .filter-section {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .filter-section h3 {
-            margin-top: 0;
-            color: var(--dark);
-        }
-        
-        select {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
-            font-size: 1em;
-        }
-        
-        .comparison-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .comparison-card {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        
-        .comparison-title {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-        }
-        
-        .comparison-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px;
-            background: white;
-            border-radius: 5px;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--secondary);
-            font-size: 0.9em;
-        }
-        
-        @media (max-width: 768px) {
-            .country-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .comparison-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Loading Animation */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .spinner {
-            border: 4px solid rgba(33, 150, 243, 0.2);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -231,6 +14,43 @@
             <h1><i class="fas fa-globe-europe"></i> Deutschland vs. Europa</h1>
             <p class="subtitle">Vergleich der Digitalisierung, KI, Bildung und Wirtschaft in Europa (2026)</p>
         </header>
+        
+        <!-- Quellen & Methodik -->
+        <section class="sources-section">
+            <h2><i class="fas fa-file-alt"></i> Quellen & Methodik</h2>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4><i class="fas fa-chart-line"></i> Datenquellen</h4>
+                    <ul>
+                        <li><strong>Eurostat:</strong> Offizielle EU-Statistiken zu Digitalisierung (DESI-Index), Wirtschaft und Arbeitsmarkt</li>
+                        <li><strong>OECD:</strong> Internationale Bildungsdaten (PISA-Studie) und Wirtschaftskennzahlen</li>
+                        <li><strong>Weltbank:</strong> BIP pro Kopf und CO₂-Emissionen</li>
+                        <li><strong>Europäische Kommission:</strong> DESI-Index (Digital Economy and Society Index) 2026</li>
+                        <li><strong>Bitkom:</strong> KI-Readiness-Index für europäische Länder</li>
+                    </ul>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-cog"></i> Methodik</h4>
+                    <p>Die Daten wurden aus offiziellen EU- und OECD-Quellen aggregiert und für den Vergleich aufbereitet.</p>
+                    <ul>
+                        <li><strong>DESI-Index:</strong> Misst die digitale Performance eines Landes (0-100 Punkte). Setzt sich aus Connectivity, Human Capital, Use of Internet Services, Integration of Digital Technology und Digital Public Services zusammen.</li>
+                        <li><strong>KI-Readiness:</strong> Bewertet die Vorbereitung eines Landes auf KI-Technologien (0-100 Punkte).</li>
+                        <li><strong>BIP pro Kopf:</strong> Bruttoinlandsprodukt pro Einwohner in Euro (KKP-bereinigt).</li>
+                        <li><strong>Gesamt-Score:</strong> Gewichteter Index aus Digitalisierung (30%), KI (25%), Bildung (20%), Wirtschaft (15%) und Arbeitslosigkeit (10%).</li>
+                    </ul>
+                    <p><em>Hinweis: Alle Werte wurden auf eine vergleichbare Skala normiert.</em></p>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-code"></i> Technische Umsetzung</h4>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla)</li>
+                        <li><strong>Charts:</strong> Chart.js 3.9.1 für alle interaktiven Diagramme</li>
+                        <li><strong>Icons:</strong> Font Awesome 6.5.1</li>
+                        <li><strong>Responsive:</strong> Vollständig mobiloptimiert</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
         
         <div class="loading" id="loading">
             <div class="spinner"></div>
@@ -244,13 +64,13 @@
         </div>
         
         <!-- Gesamt-Ranking -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">🏆 Gesamt-Ranking: Digitalisierung & Wirtschaft</h2>
             <canvas id="rankingChart"></canvas>
         </div>
         
         <!-- Kriterien-Vergleich -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📊 Vergleich nach Kriterien</h2>
             <div>
                 <label for="kriteriumSelect">Kriterium auswählen:</label>
@@ -283,13 +103,13 @@
         </div>
         
         <!-- Radar Chart -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">🎯 Radar-Chart: Stärken und Schwächen</h2>
             <canvas id="radarChart"></canvas>
         </div>
         
         <!-- Korrelationen -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">🔗 Korrelationen zwischen Kriterien</h2>
             <canvas id="correlationChart"></canvas>
         </div>
@@ -304,6 +124,36 @@
     </div>
     
     <script>
+        // Standard-Chart-Optionen (verhindert Canvas-Overflow)
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        autoSkip: true,
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            },
+            animation: {
+                duration: 1000
+            }
+        };
+        
         // Globale Variable für die Daten
         let euDaten = [];
         
@@ -457,13 +307,14 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     indexAxis: 'y',
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         legend: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     return 'Gesamt-Score: ' + context.raw;
@@ -472,7 +323,9 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         x: {
+                            ...defaultChartOptions.scales.x,
                             beginAtZero: true,
                             title: {
                                 display: true,
@@ -512,12 +365,13 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         legend: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     let value = context.raw;
@@ -528,12 +382,9 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         x: {
-                            ticks: {
-                                autoSkip: false,
-                                maxRotation: 45,
-                                minRotation: 45
-                            }
+                            ...defaultChartOptions.scales.x
                         },
                         y: {
                             beginAtZero: true,
@@ -683,9 +534,9 @@
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         legend: {
                             position: 'top'
@@ -732,14 +583,15 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: {
                             display: true,
                             text: 'Digitalisierung vs. Wirtschaftskraft (BIP pro Kopf in Tausend €)'
                         },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     const land = data[context.dataIndex];
