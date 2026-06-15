@@ -6,229 +6,8 @@
     <title>🏘️ Lebensqualitätsindex | Germany Pulse 2030</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4CAF50;
-            --secondary: #45a049;
-            --accent: #FFC107;
-            --danger: #f44336;
-            --info: #2196F3;
-            --light: #f8f9fa;
-            --dark: #343a40;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            color: var(--dark);
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin: 0;
-        }
-        
-        .subtitle {
-            color: var(--secondary);
-            margin: 10px 0 0;
-        }
-        
-        .chart-container {
-            background: white;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .chart-title {
-            font-size: 1.3em;
-            color: var(--dark);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-        }
-        
-        .ranking-container {
-            background: white;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .ranking-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .ranking-table th,
-        .ranking-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .ranking-table th {
-            background-color: var(--primary);
-            color: white;
-            font-weight: bold;
-        }
-        
-        .ranking-table tr:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .rank-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-        
-        .rank-1 { background-color: #FFD700; color: #000; }
-        .rank-2 { background-color: #C0C0C0; color: #000; }
-        .rank-3 { background-color: #CD7F32; color: #fff; }
-        
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-        }
-        
-        .stat-icon {
-            font-size: 2em;
-            margin-right: 15px;
-            color: var(--primary);
-        }
-        
-        .stat-content {
-            flex: 1;
-        }
-        
-        .stat-value {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .stat-label {
-            color: var(--secondary);
-            font-size: 0.9em;
-        }
-        
-        .filter-section {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .filter-section h3 {
-            margin-top: 0;
-            color: var(--dark);
-        }
-        
-        select, input {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
-            font-size: 1em;
-        }
-        
-        button {
-            padding: 8px 16px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background 0.3s;
-        }
-        
-        button:hover {
-            background: var(--secondary);
-        }
-        
-        .progress-container {
-            width: 100%;
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-        
-        .progress-bar {
-            height: 20px;
-            border-radius: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            width: 0%;
-            transition: width 1s ease-in-out;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--secondary);
-            font-size: 0.9em;
-        }
-        
-        @media (max-width: 768px) {
-            .chart-container {
-                padding: 10px;
-            }
-            
-            .ranking-table {
-                font-size: 0.8em;
-            }
-        }
-        
-        /* Loading Animation */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .spinner {
-            border: 4px solid rgba(76, 175, 80, 0.2);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -236,6 +15,43 @@
             <h1><i class="fas fa-home"></i> Lebensqualitätsindex Deutschland 2026</h1>
             <p class="subtitle">Vergleich aller Bundesländer: Mieten, Gehälter, Arbeitslosigkeit, Infrastruktur & mehr</p>
         </header>
+        
+        <!-- Quellen & Methodik -->
+        <section class="sources-section">
+            <h2><i class="fas fa-file-alt"></i> Quellen & Methodik</h2>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4><i class="fas fa-chart-line"></i> Datenquellen</h4>
+                    <ul>
+                        <li><strong>Statistisches Bundesamt:</strong> Offizielle Statistiken zu Wirtschaft, Bevölkerung und Infrastruktur (2026)</li>
+                        <li><strong>Immoscout24:</strong> Mietpreisdaten für 2-Zimmer-Wohnungen</li>
+                        <li><strong>Numbeo:</strong> Lebensqualitätsindizes und Kostenvergleiche</li>
+                        <li><strong>Bundesagentur für Arbeit:</strong> Arbeitslosenquoten nach Bundesland</li>
+                        <li><strong>Bundesnetzagentur:</strong> Internetgeschwindigkeiten (Glasfaser, 5G)</li>
+                    </ul>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-cog"></i> Methodik</h4>
+                    <p>Die Daten wurden aus offiziellen Quellen aggregiert und für die Visualisierung aufbereitet.</p>
+                    <ul>
+                        <li><strong>Gesamt-Score:</strong> Gewichteter Index aus 10 Kriterien (Miete, Gehalt, Arbeitslosigkeit, Internet, Ärzteversorgung, Kriminalität, Kinderbetreuung, ÖPNV, Kultur, Grünflächen).</li>
+                        <li><strong>Normalisierung:</strong> Alle Werte wurden auf eine Skala von 0-100 normiert, wobei höhere Werte besser sind (außer bei Arbeitslosigkeit und Kriminalität).</li>
+                        <li><strong>Ranking:</strong> Bundesländer werden nach dem Gesamt-Score sortiert.</li>
+                        <li><strong>Radar-Chart:</strong> Zeigt die Stärken und Schwächen der Top 3 Bundesländer im direkten Vergleich.</li>
+                    </ul>
+                    <p><em>Hinweis: Die Berechnungen sind vereinfacht und dienen der Veranschaulichung.</em></p>
+                </div>
+                <div class="source-card">
+                    <h4><i class="fas fa-code"></i> Technische Umsetzung</h4>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla)</li>
+                        <li><strong>Charts:</strong> Chart.js 3.9.1 für alle interaktiven Diagramme</li>
+                        <li><strong>Icons:</strong> Font Awesome 6.5.1</li>
+                        <li><strong>Responsive:</strong> Vollständig mobiloptimiert</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
         
         <div class="loading" id="loading">
             <div class="spinner"></div>
@@ -249,11 +65,9 @@
         </div>
         
         <!-- Radar Chart: Alle Kriterien -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📊 Lebensqualität nach Bundesland (Radar-Vergleich)</h2>
-            <div style="height: 500px;">
-                <canvas id="radarChart"></canvas>
-            </div>
+            <canvas id="radarChart"></canvas>
         </div>
         
         <!-- Ranking Tabelle -->
@@ -277,7 +91,7 @@
         </div>
         
         <!-- Vergleichs-Charts -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📈 Vergleich: Miete vs. Gehalt vs. Arbeitslosigkeit</h2>
             <canvas id="comparisonChart"></canvas>
         </div>
@@ -308,7 +122,7 @@
             </div>
         </div>
         
-        <div class="chart-container">
+        <div class="chart-container" style="height: 500px;">
             <h2 class="chart-title">📊 Ausgewähltes Kriterium: <span id="selectedKriterium">Miete (2-Zimmer)</span></h2>
             <canvas id="kriteriumChart"></canvas>
         </div>
@@ -323,6 +137,36 @@
     </div>
     
     <script>
+        // Standard-Chart-Optionen (verhindert Canvas-Overflow)
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        autoSkip: true,
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            },
+            animation: {
+                duration: 1000
+            }
+        };
+        
         // Globale Variable für die Daten
         let lebensqualitaetDaten = [];
         let chartInstances = {};
@@ -509,9 +353,9 @@
                     }))
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         legend: {
                             position: 'top',
@@ -570,11 +414,12 @@
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label + ': ';
@@ -590,13 +435,10 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         x: {
-                            stacked: false,
-                            ticks: {
-                                autoSkip: false,
-                                maxRotation: 45,
-                                minRotation: 45
-                            }
+                            ...defaultChartOptions.scales.x,
+                            stacked: false
                         },
                         y: {
                             type: 'linear',
@@ -678,11 +520,12 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         title: { display: false },
                         tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
                             callbacks: {
                                 label: function(context) {
                                     let value = context.raw;
@@ -702,12 +545,9 @@
                         }
                     },
                     scales: {
+                        ...defaultChartOptions.scales,
                         x: {
-                            ticks: {
-                                autoSkip: false,
-                                maxRotation: 45,
-                                minRotation: 45
-                            }
+                            ...defaultChartOptions.scales.x
                         },
                         y: {
                             beginAtZero: true,
@@ -765,8 +605,7 @@
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
+                        ...defaultChartOptions,
                         plugins: {
                             legend: { display: false },
                             tooltip: {
@@ -780,12 +619,9 @@
                             }
                         },
                         scales: {
+                            ...defaultChartOptions.scales,
                             x: {
-                                ticks: {
-                                    autoSkip: true,
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
+                                ...defaultChartOptions.scales.x
                             },
                             y: {
                                 beginAtZero: !kriterium.inverse,
