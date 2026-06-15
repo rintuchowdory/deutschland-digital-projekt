@@ -1,0 +1,19 @@
+Bundesland,Miete_2Zimmer (€),Durchschnittsgehalt (€),Arbeitslosenquote (%),Internetgeschwindigkeit (Mbit/s),Ärzte pro 1000 Einwohner,Kriminalität (Fälle pro 1000),Kinderbetreuung (Plätze pro 100),ÖPNV-Qualität (1-10),Kulturangebot (1-10),Grünflächen (m² pro Einwohner),Gesamt_Score
+Baden-Württemberg,1200,4200,3.2,250,4.2,5.1,85,8,9,45,88.5
+Bayern,1250,4300,2.8,280,4.5,4.8,90,7,8,50,90.2
+Berlin,1100,3800,7.5,300,3.8,12.5,75,9,10,30,72.4
+Brandenburg,700,3100,6.8,150,3.2,6.2,80,6,7,60,68.7
+Bremen,950,3900,8.2,220,5.1,9.8,85,8,9,25,70.3
+Hamburg,1300,4800,5.1,320,4.8,10.2,95,9,10,20,85.6
+Hessen,1100,4100,4.3,240,4.0,6.5,88,8,8,40,82.1
+Mecklenburg-Vorpommern,600,2800,7.2,120,3.5,5.8,70,5,6,70,62.5
+Niedersachsen,800,3600,4.9,180,3.9,5.5,82,7,7,55,75.8
+Nordrhein-Westfalen,900,3900,6.1,200,4.1,8.2,85,8,9,35,76.4
+Rheinland-Pfalz,850,3700,4.5,190,4.3,5.9,80,7,7,50,78.2
+Saarland,750,3500,5.8,160,4.7,7.1,75,6,6,45,69.8
+Sachsen,650,3200,6.5,170,3.8,5.4,70,6,7,65,67.3
+Sachsen-Anhalt,550,2900,7.0,140,3.6,6.0,65,5,5,70,60.2
+Schleswig-Holstein,900,3800,4.2,210,3.9,4.5,90,7,8,55,84.5
+Thüringen,600,3300,5.5,150,4.0,5.2,75,6,7,60,70.1
+
+Bundesdurchschnitt,900,3800,5.8,200,4.1,6.8,80,7,8,45,75.0

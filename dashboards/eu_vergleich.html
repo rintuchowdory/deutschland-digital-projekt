@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 Deutschland vs. Europa | Germany Pulse 2030</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2196F3;
+            --secondary: #03A9F4;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --warning: #FFC107;
+            --info: #00BCD4;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            margin: 10px 0 0;
+        }
+        
+        .chart-container {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.3em;
+            color: var(--dark);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .country-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .country-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .country-flag {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .country-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .country-stat {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 5px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        
+        .stat-label {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .stat-value {
+            color: var(--dark);
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        
+        .rank-1 { background-color: #FFD700; color: #000; }
+        .rank-2 { background-color: #C0C0C0; color: #000; }
+        .rank-3 { background-color: #CD7F32; color: #fff; }
+        
+        .filter-section {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .filter-section h3 {
+            margin-top: 0;
+            color: var(--dark);
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+        
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .comparison-card {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .comparison-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        
+        .comparison-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            background: white;
+            border-radius: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .country-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(33, 150, 243, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-globe-europe"></i> Deutschland vs. Europa</h1>
+            <p class="subtitle">Vergleich der Digitalisierung, KI, Bildung und Wirtschaft in Europa (2026)</p>
+        </header>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Daten werden geladen...</p>
+        </div>
+        
+        <!-- Länder-Übersicht -->
+        <div class="chart-container">
+            <h2 class="chart-title">🌍 Länder im Vergleich</h2>
+            <div class="country-grid" id="countryGrid"></div>
+        </div>
+        
+        <!-- Gesamt-Ranking -->
+        <div class="chart-container">
+            <h2 class="chart-title">🏆 Gesamt-Ranking: Digitalisierung & Wirtschaft</h2>
+            <canvas id="rankingChart"></canvas>
+        </div>
+        
+        <!-- Kriterien-Vergleich -->
+        <div class="chart-container">
+            <h2 class="chart-title">📊 Vergleich nach Kriterien</h2>
+            <div>
+                <label for="kriteriumSelect">Kriterium auswählen:</label>
+                <select id="kriteriumSelect" onchange="updateKriteriumChart()">
+                    <option value="Digitalisierung (DESI)">Digitalisierung (DESI)</option>
+                    <option value="KI-Readiness">KI-Readiness</option>
+                    <option value="Bildung (PISA)">Bildung (PISA)</option>
+                    <option value="Wirtschaft (BIP pro Kopf €)">Wirtschaft (BIP/Kopf)</option>
+                    <option value="Arbeitslosenquote (%)">Arbeitslosenquote</option>
+                    <option value="CO2-Emissionen (Tonnen pro Kopf)">CO2-Emissionen</option>
+                    <option value="Energie aus Erneuerbaren (%)">Erneuerbare Energien</option>
+                </select>
+            </div>
+            <canvas id="kriteriumChart" style="margin-top: 20px;"></canvas>
+        </div>
+        
+        <!-- Deutschland vs. Top 3 -->
+        <div class="chart-container">
+            <h2 class="chart-title">🥊 Deutschland vs. Top 3 Länder</h2>
+            <div class="comparison-container">
+                <div class="comparison-card">
+                    <div class="comparison-title">Deutschland</div>
+                    <div class="comparison-grid" id="deutschlandComparison"></div>
+                </div>
+                <div class="comparison-card">
+                    <div class="comparison-title">Top 3 Durchschnitt</div>
+                    <div class="comparison-grid" id="top3Comparison"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Radar Chart -->
+        <div class="chart-container">
+            <h2 class="chart-title">🎯 Radar-Chart: Stärken und Schwächen</h2>
+            <canvas id="radarChart"></canvas>
+        </div>
+        
+        <!-- Korrelationen -->
+        <div class="chart-container">
+            <h2 class="chart-title">🔗 Korrelationen zwischen Kriterien</h2>
+            <canvas id="correlationChart"></canvas>
+        </div>
+        
+        <footer>
+            <p><i class="fas fa-database"></i> Datenquellen: Eurostat, OECD, DESI-Index, Weltbank (2026)</p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-code"></i> Mit ❤️ und Chart.js erstellt | 
+                <i class="fas fa-github"></i> <a href="https://github.com/rintuchowdory/deutschland-digital-projekt" style="color: var(--primary);">GitHub Repository</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Globale Variable für die Daten
+        let euDaten = [];
+        
+        // Daten laden
+        fetch('../data/eu_vergleich.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                // CSV parsen
+                const lines = csvText.split('\n');
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                euDaten = lines.slice(1).map(line => {
+                    const values = line.split(',');
+                    const entry = {};
+                    headers.forEach((header, index) => {
+                        entry[header] = values[index] ? parseFloat(values[index].replace(/[^0-9.-]/g, '')) : 0;
+                    });
+                    entry.Land = line.split(',')[0].trim();
+                    return entry;
+                }).filter(entry => entry.Land);
+                
+                // Deutschland finden
+                const deutschland = euDaten.find(d => d.Land === 'Deutschland');
+                
+                // Länder nach DESI-Index sortieren
+                euDaten.sort((a, b) => b['Digitalisierung (DESI)'] - a['Digitalisierung (DESI)']);
+                
+                // Länderkarten erstellen
+                createCountryCards();
+                
+                // Charts erstellen
+                createRankingChart();
+                createKriteriumChart('Digitalisierung (DESI)');
+                updateComparisonCards(deutschland);
+                createRadarChart();
+                createCorrelationChart();
+                
+                document.getElementById('loading').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden der Daten:', error);
+                document.getElementById('loading').innerHTML = '<p style="color: red;">Fehler beim Laden der Daten. Bitte lade die Seite neu.</p>';
+            });
+        
+        // Länderkarten erstellen
+        function createCountryCards() {
+            const grid = document.getElementById('countryGrid');
+            grid.innerHTML = '';
+            
+            euDaten.forEach((land, index) => {
+                const card = document.createElement('div');
+                card.className = 'country-card';
+                
+                // Flagge als Emoji (einfachste Darstellung)
+                let flagEmoji = '';
+                const countryFlags = {
+                    'Deutschland': '🇩🇪',
+                    'Niederlande': '🇳🇱',
+                    'Dänemark': '🇩🇰',
+                    'Estland': '🇪🇪',
+                    'Schweden': '🇸🇪',
+                    'Finnland': '🇫🇮',
+                    'Frankreich': '🇫🇷',
+                    'Österreich': '🇦🇹',
+                    'Belgien': '🇧🇪'
+                };
+                flagEmoji = countryFlags[land.Land] || '🌍';
+                
+                const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                const rank = index + 1;
+                
+                card.innerHTML = `
+                    <div class="country-flag">${flagEmoji}</div>
+                    <div class="country-name">
+                        ${land.Land}
+                        ${rank <= 3 ? `<span class="rank-badge ${rankClass}">#${rank}</span>` : ''}
+                    </div>
+                    <div class="country-stat">
+                        <span class="stat-label">DESI:</span>
+                        <span class="stat-value">${land['Digitalisierung (DESI)'].toFixed(1)}</span>
+                    </div>
+                    <div class="country-stat">
+                        <span class="stat-label">KI:</span>
+                        <span class="stat-value">${land['KI-Readiness'].toFixed(1)}</span>
+                    </div>
+                    <div class="country-stat">
+                        <span class="stat-label">BIP/Kopf:</span>
+                        <span class="stat-value">${land['Wirtschaft (BIP pro Kopf €)'].toLocaleString()}€</span>
+                    </div>
+                    <div class="country-stat">
+                        <span class="stat-label">Bildung:</span>
+                        <span class="stat-value">${land['Bildung (PISA)'].toFixed(1)}</span>
+                    </div>
+                `;
+                
+                card.onclick = () => {
+                    selectCountry(land.Land);
+                };
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        // Land auswählen (für zukünftige Erweiterungen)
+        function selectCountry(landName) {
+            console.log('Ausgewähltes Land:', landName);
+            // Hier könnte man detaillierte Ansichten implementieren
+        }
+        
+        // Ranking-Chart erstellen
+        function createRankingChart() {
+            const ctx = document.getElementById('rankingChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            // Gesamt-Score berechnen (gewichtet)
+            const scores = euDaten.map(land => {
+                return (
+                    land['Digitalisierung (DESI)'] * 0.3 +
+                    land['KI-Readiness'] * 0.25 +
+                    land['Bildung (PISA)'] * 0.2 +
+                    (land['Wirtschaft (BIP pro Kopf €)'] / 1000) * 0.15 +
+                    (100 - land['Arbeitslosenquote (%)']) * 0.1
+                );
+            });
+            
+            // Daten sortieren
+            const sortedData = [...euDaten].sort((a, b) => {
+                const scoreA = a['Digitalisierung (DESI)'] * 0.3 + a['KI-Readiness'] * 0.25 + a['Bildung (PISA)'] * 0.2 + (a['Wirtschaft (BIP pro Kopf €)'] / 1000) * 0.15 + (100 - a['Arbeitslosenquote (%)']) * 0.1;
+                const scoreB = b['Digitalisierung (DESI)'] * 0.3 + b['KI-Readiness'] * 0.25 + b['Bildung (PISA)'] * 0.2 + (b['Wirtschaft (BIP pro Kopf €)'] / 1000) * 0.15 + (100 - b['Arbeitslosenquote (%)']) * 0.1;
+                return scoreB - scoreA;
+            });
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedData.map(land => land.Land),
+                    datasets: [{
+                        label: 'Gesamt-Score',
+                        data: sortedData.map(land => {
+                            return (
+                                land['Digitalisierung (DESI)'] * 0.3 +
+                                land['KI-Readiness'] * 0.25 +
+                                land['Bildung (PISA)'] * 0.2 +
+                                (land['Wirtschaft (BIP pro Kopf €)'] / 1000) * 0.15 +
+                                (100 - land['Arbeitslosenquote (%)']) * 0.1
+                            ).toFixed(1);
+                        }),
+                        backgroundColor: 'rgba(33, 150, 243, 0.7)',
+                        borderColor: 'rgba(33, 150, 243, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        title: { display: false },
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Gesamt-Score: ' + context.raw;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Gesamt-Score (100 = beste Bewertung)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Kriterium-Chart aktualisieren
+        function createKriteriumChart(selectedKriterium) {
+            const ctx = document.getElementById('kriteriumChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            // Für Arbeitslosigkeit: niedriger = besser (umkehren)
+            const isInverse = selectedKriterium.includes('Arbeitslosenquote') || selectedKriterium.includes('CO2');
+            
+            const data = euDaten.map(land => {
+                if (isInverse) {
+                    return 100 - land[selectedKriterium];
+                }
+                return land[selectedKriterium];
+            });
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: euDaten.map(land => land.Land),
+                    datasets: [{
+                        label: selectedKriterium,
+                        data: data,
+                        backgroundColor: 'rgba(33, 150, 243, 0.7)',
+                        borderColor: 'rgba(33, 150, 243, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw;
+                                    if (isInverse) value = 100 - value;
+                                    return selectedKriterium + ': ' + value.toFixed(1);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: isInverse ? 'Score (100 = bester Wert)' : selectedKriterium
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateKriteriumChart() {
+            const selectedKriterium = document.getElementById('kriteriumSelect').value;
+            createKriteriumChart(selectedKriterium);
+        }
+        
+        // Vergleichs-Karten aktualisieren
+        function updateComparisonCards(deutschland) {
+            // Top 3 Länder (ohne Deutschland)
+            const otherCountries = euDaten.filter(d => d.Land !== 'Deutschland');
+            const top3 = otherCountries.sort((a, b) => b['Digitalisierung (DESI)'] - a['Digitalisierung (DESI)']).slice(0, 3);
+            
+            // Durchschnitt der Top 3
+            const top3Avg = {
+                'Digitalisierung (DESI)': top3.reduce((sum, c) => sum + c['Digitalisierung (DESI)'], 0) / top3.length,
+                'KI-Readiness': top3.reduce((sum, c) => sum + c['KI-Readiness'], 0) / top3.length,
+                'Bildung (PISA)': top3.reduce((sum, c) => sum + c['Bildung (PISA)'], 0) / top3.length,
+                'Wirtschaft (BIP pro Kopf €)': top3.reduce((sum, c) => sum + c['Wirtschaft (BIP pro Kopf €)'], 0) / top3.length,
+                'Arbeitslosenquote (%)': top3.reduce((sum, c) => sum + c['Arbeitslosenquote (%)'], 0) / top3.length,
+                'CO2-Emissionen (Tonnen pro Kopf)': top3.reduce((sum, c) => sum + c['CO2-Emissionen (Tonnen pro Kopf)'], 0) / top3.length,
+                'Energie aus Erneuerbaren (%)': top3.reduce((sum, c) => sum + c['Energie aus Erneuerbaren (%)'], 0) / top3.length
+            };
+            
+            // Deutschland-Karten
+            const deutschlandGrid = document.getElementById('deutschlandComparison');
+            const top3Grid = document.getElementById('top3Comparison');
+            
+            const kriterien = [
+                { key: 'Digitalisierung (DESI)', label: 'Digitalisierung', unit: '' },
+                { key: 'KI-Readiness', label: 'KI-Readiness', unit: '' },
+                { key: 'Bildung (PISA)', label: 'Bildung', unit: '' },
+                { key: 'Wirtschaft (BIP pro Kopf €)', label: 'BIP/Kopf', unit: '€', format: true },
+                { key: 'Arbeitslosenquote (%)', label: 'Arbeitslosigkeit', unit: '%', inverse: true },
+                { key: 'CO2-Emissionen (Tonnen pro Kopf)', label: 'CO2-Emissionen', unit: 't', inverse: true }
+            ];
+            
+            kriterien.forEach(kriterium => {
+                const deValue = deutschland[kriterium.key];
+                const top3Value = top3Avg[kriterium.key];
+                
+                // Deutschland-Karte
+                const deItem = document.createElement('div');
+                deItem.className = 'comparison-item';
+                deItem.innerHTML = `
+                    <span>${kriterium.label}:</span>
+                    <strong>${kriterium.format ? deValue.toLocaleString() + kriterium.unit : deValue.toFixed(1) + kriterium.unit}</strong>
+                `;
+                deutschlandGrid.appendChild(deItem);
+                
+                // Top 3-Karte
+                const top3Item = document.createElement('div');
+                top3Item.className = 'comparison-item';
+                top3Item.innerHTML = `
+                    <span>${kriterium.label}:</span>
+                    <strong>${kriterium.format ? top3Value.toLocaleString() + kriterium.unit : top3Value.toFixed(1) + kriterium.unit}</strong>
+                `;
+                top3Grid.appendChild(top3Item);
+            });
+        }
+        
+        // Radar-Chart erstellen
+        function createRadarChart() {
+            const ctx = document.getElementById('radarChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            const deutschland = euDaten.find(d => d.Land === 'Deutschland');
+            const top3 = euDaten.filter(d => d.Land !== 'Deutschland').sort((a, b) => b['Digitalisierung (DESI)'] - a['Digitalisierung (DESI)']).slice(0, 1);
+            
+            // Kriterien für Radar-Chart
+            const kriterien = [
+                'Digitalisierung (DESI)',
+                'KI-Readiness',
+                'Bildung (PISA)',
+                'Wirtschaft (BIP pro Kopf €)',
+                'Energie aus Erneuerbaren (%)',
+                'Public Services Digitalization',
+                'E-Health Index'
+            ];
+            
+            // Normalisierung der Daten (0-100)
+            const normalize = (value, min, max) => {
+                return ((value - min) / (max - min)) * 100;
+            };
+            
+            const kriterienNamen = [
+                'Digitalisierung',
+                'KI-Readiness',
+                'Bildung',
+                'Wirtschaft',
+                'Erneuerbare Energien',
+                'Digitale Verwaltung',
+                'E-Health'
+            ];
+            
+            // Min/Max für Normalisierung
+            const getMinMax = (kriterium) => {
+                const values = euDaten.map(d => d[kriterium]);
+                return { min: Math.min(...values), max: Math.max(...values) };
+            };
+            
+            // Daten normalisieren
+            const deutschlandData = kriterien.map(kriterium => {
+                const { min, max } = getMinMax(kriterium);
+                return normalize(deutschland[kriterium], min, max);
+            });
+            
+            const top3Data = top3.map(land => {
+                return kriterien.map(kriterium => {
+                    const { min, max } = getMinMax(kriterium);
+                    return normalize(land[kriterium], min, max);
+                });
+            });
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: kriterienNamen,
+                    datasets: [
+                        {
+                            label: 'Deutschland',
+                            data: deutschlandData,
+                            borderColor: 'rgba(244, 67, 54, 1)',
+                            backgroundColor: 'rgba(244, 67, 54, 0.2)',
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(244, 67, 54, 1)'
+                        },
+                        ...top3.map((land, index) => ({
+                            label: land.Land,
+                            data: top3Data[index],
+                            borderColor: `hsl(${index * 120 + 120}, 70%, 50%)`,
+                            backgroundColor: `hsla(${index * 120 + 120}, 70%, 50%, 0.2)`,
+                            borderWidth: 2,
+                            pointBackgroundColor: `hsl(${index * 120 + 120}, 70%, 50%)`
+                        }))
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Korrelations-Chart (Scatter Plot)
+        function createCorrelationChart() {
+            const ctx = document.getElementById('correlationChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            // Beispiel: Digitalisierung vs. Wirtschaft
+            const data = euDaten.map(land => ({
+                x: land['Digitalisierung (DESI)'],
+                y: land['Wirtschaft (BIP pro Kopf €)'] / 1000,
+                label: land.Land,
+                r: 8
+            }));
+            
+            new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: 'Länder',
+                        data: data,
+                        backgroundColor: 'rgba(33, 150, 243, 0.5)',
+                        borderColor: 'rgba(33, 150, 243, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Digitalisierung vs. Wirtschaftskraft (BIP pro Kopf in Tausend €)'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const land = data[context.dataIndex];
+                                    return `${land.label}: DESI ${land.x}, BIP/Kopf: ${(land.y * 1000).toLocaleString()}€`;
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Digitalisierung (DESI-Index)'
+                            },
+                            min: 60,
+                            max: 100
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'BIP pro Kopf (Tausend €)'
+                            },
+                            min: 30,
+                            max: 60
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

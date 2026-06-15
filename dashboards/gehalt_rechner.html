@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💶 Netto-Gehalt-Rechner | Germany Pulse 2030</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF9800;
+            --secondary: #F57C00;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --info: #2196F3;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            margin: 10px 0 0;
+        }
+        
+        .calculator-container {
+            background: white;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            display: block;
+            margin: 20px auto 0;
+        }
+        
+        button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .result-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .result-label {
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        .chart-container {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.3em;
+            color: var(--dark);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+        
+        .info-box h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        
+        .info-box ul {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255, 152, 0, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Tooltip */
+        .tooltip-icon {
+            color: var(--info);
+            cursor: help;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calculator"></i> Netto-Gehalt-Rechner</h1>
+            <p class="subtitle">Berechne dein Nettoeinkommen basierend auf Brutto, Steuerklasse und Bundesland</p>
+        </header>
+        
+        <div class="info-box">
+            <h4><i class="fas fa-info-circle"></i> Hinweise:</h4>
+            <ul>
+                <li>Die Berechnung ist <strong>vereinfachte Schätzung</strong> und ersetzt keine offizielle Steuerberechnung.</li>
+                <li>Berücksichtigt werden: <strong>Lohnsteuer, Sozialabgaben (Rente, Krankenversicherung, Pflegeversicherung, Arbeitslosenversicherung)</strong>.</li>
+                <li>Kirchensteuer und andere Sonderfaktoren werden nicht berücksichtigt.</li>
+                <li>Datenstand: 2026 (Steuerrecht Deutschland).</li>
+            </ul>
+        </div>
+        
+        <div class="calculator-container">
+            <h2><i class="fas fa-sliders-h"></i> Eingaben</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="brutto">Brutto-Jahresgehalt (€)</label>
+                    <input type="number" id="brutto" value="50000" min="0" step="1000" placeholder="z.B. 50000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="steuerklasse">Steuerklasse</label>
+                    <select id="steuerklasse">
+                        <option value="1">I (Ledig, unverheiratet)</option>
+                        <option value="2">II (Alleinerziehend)</option>
+                        <option value="3">III (Verheiratet, Hauptverdiener)</option>
+                        <option value="4">IV (Verheiratet, gleichberechtigt)</option>
+                        <option value="5">V (Verheiratet, Nebenverdiener)</option>
+                        <option value="6">VI (Zweitjob)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="bundesland">Bundesland</label>
+                    <select id="bundesland">
+                        <option value="Baden-Württemberg">Baden-Württemberg</option>
+                        <option value="Bayern">Bayern</option>
+                        <option value="Berlin">Berlin</option>
+                        <option value="Brandenburg">Brandenburg</option>
+                        <option value="Bremen">Bremen</option>
+                        <option value="Hamburg">Hamburg</option>
+                        <option value="Hessen">Hessen</option>
+                        <option value="Mecklenburg-Vorpommern">Mecklenburg-Vorpommern</option>
+                        <option value="Niedersachsen">Niedersachsen</option>
+                        <option value="Nordrhein-Westfalen" selected>Nordrhein-Westfalen</option>
+                        <option value="Rheinland-Pfalz">Rheinland-Pfalz</option>
+                        <option value="Saarland">Saarland</option>
+                        <option value="Sachsen">Sachsen</option>
+                        <option value="Sachsen-Anhalt">Sachsen-Anhalt</option>
+                        <option value="Schleswig-Holstein">Schleswig-Holstein</option>
+                        <option value="Thüringen">Thüringen</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="kinder">Anzahl Kinderfreibeträge</label>
+                    <select id="kinder">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4 oder mehr</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="kirchensteuer">Kirchensteuerpflichtig?</label>
+                <select id="kirchensteuer">
+                    <option value="false" selected>Nein</option>
+                    <option value="true">Ja (8% oder 9% je nach Bundesland)</option>
+                </select>
+            </div>
+            
+            <button onclick="berechneNetto()">
+                <i class="fas fa-calculator"></i> Netto berechnen
+            </button>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Berechnung läuft...</p>
+        </div>
+        
+        <div class="result-container" id="resultContainer" style="display: none;">
+            <h2><i class="fas fa-euro-sign"></i> Dein Ergebnis</h2>
+            
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="result-value" id="nettoJahr">0€</div>
+                    <div class="result-label">Netto-Jahresgehalt</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-value" id="nettoMonat">0€</div>
+                    <div class="result-label">Netto-Monatsgehalt</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-value" id="steuerJahr">0€</div>
+                    <div class="result-label">Lohnsteuer (Jahr)</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-value" id="sozialabgaben">0€</div>
+                    <div class="result-label">Sozialabgaben (Jahr)</div>
+                </div>
+            </div>
+            
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="result-value" id="rentenversicherung">0€</div>
+                    <div class="result-label">Rentenversicherung</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-value" id="krankenversicherung">0€</div>
+                    <div class="result-label">Krankenversicherung</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-value" id="pflegeversicherung">0€</div>
+                    <div class="result-label">Pflegeversicherung</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-value" id="arbeitslosenversicherung">0€</div>
+                    <div class="result-label">Arbeitslosenversicherung</div>
+                </div>
+            </div>
+            
+            <div class="result-card" style="margin-top: 20px; background: linear-gradient(135deg, #c5cae9 0%, #9fa8da 100%);">
+                <div class="result-value" id="kaufkraft" style="font-size: 2.5em;">0%</div>
+                <div class="result-label" style="font-size: 1.1em;">Kaufkraft (Netto/Brutto)</div>
+            </div>
+        </div>
+        
+        <!-- Abzüge-Diagramm -->
+        <div class="chart-container">
+            <h2 class="chart-title">📊 Aufteilung deines Bruttoeinkommens</h2>
+            <canvas id="abzuegeChart"></canvas>
+        </div>
+        
+        <!-- Vergleich mit Bundesdurchschnitt -->
+        <div class="chart-container">
+            <h2 class="chart-title">📈 Vergleich mit Bundesdurchschnitt (2026)</h2>
+            <canvas id="vergleichChart"></canvas>
+        </div>
+        
+        <footer>
+            <p><i class="fas fa-database"></i> Datenbasis: Steuerrecht Deutschland 2026, Sozialversicherungsbeiträge</p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-code"></i> Mit ❤️ und JavaScript erstellt | 
+                <i class="fas fa-github"></i> <a href="https://github.com/rintuchowdory/deutschland-digital-projekt" style="color: var(--primary);">GitHub Repository</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Steuerdaten für Deutschland 2026 (vereinfachte Sätze)
+        const steuerdaten = {
+            // Sozialversicherungsbeiträge 2026 (Arbeitnehmeranteil)
+            rentenversicherung: 0.093,      // 9.3%
+            krankenversicherung: 0.146,    // 14.6% (durchschnittlicher Zusatzbeitrag)
+            pflegeversicherung: 0.034,     // 3.4% (inkl. Kinderlosenzuschlag)
+            arbeitslosenversicherung: 0.013, // 1.3%
+            
+            // Arbeitgeberanteil (wird nicht vom Brutto abgezogen, aber für Info)
+            ag_rentenversicherung: 0.093,
+            ag_krankenversicherung: 0.073,
+            ag_pflegeversicherung: 0.034,
+            ag_arbeitslosenversicherung: 0.013,
+            
+            // Kirchensteuer (8% oder 9% je nach Bundesland)
+            kirchensteuer: {
+                'Baden-Württemberg': 0.08,
+                'Bayern': 0.08,
+                'Berlin': 0.09,
+                'Brandenburg': 0.09,
+                'Bremen': 0.09,
+                'Hamburg': 0.09,
+                'Hessen': 0.09,
+                'Mecklenburg-Vorpommern': 0.09,
+                'Niedersachsen': 0.09,
+                'Nordrhein-Westfalen': 0.09,
+                'Rheinland-Pfalz': 0.09,
+                'Saarland': 0.09,
+                'Sachsen': 0.09,
+                'Sachsen-Anhalt': 0.09,
+                'Schleswig-Holstein': 0.09,
+                'Thüringen': 0.09
+            },
+            
+            // Grundfreibetrag 2026
+            grundfreibetrag: {
+                '1': 11604,   // Steuerklasse I
+                '2': 11604,   // Steuerklasse II
+                '3': 23208,   // Steuerklasse III
+                '4': 11604,   // Steuerklasse IV
+                '5': 11604,   // Steuerklasse V
+                '6': 11604    // Steuerklasse VI
+            },
+            
+            // Kinderfreibetrag 2026
+            kinderfreibetrag: 8952
+        };
+        
+        // Bundesdurchschnittsgehalt 2026
+        const bundesdurchschnitt = {
+            brutto: 45000,
+            netto: 29000,
+            steuer: 5000,
+            sozialabgaben: 11000
+        };
+        
+        // Berechnung durchführen
+        function berechneNetto() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultContainer').style.display = 'none';
+            
+            // Eingaben lesen
+            const brutto = parseFloat(document.getElementById('brutto').value) || 0;
+            const steuerklasse = document.getElementById('steuerklasse').value;
+            const bundesland = document.getElementById('bundesland').value;
+            const kinder = parseInt(document.getElementById('kinder').value) || 0;
+            const kirchensteuerPflichtig = document.getElementById('kirchensteuer').value === 'true';
+            
+            // Sozialversicherungsbeiträge berechnen (Arbeitnehmeranteil)
+            const rentenbeitrag = brutto * steuerdaten.rentenversicherung;
+            const krankenbeitrag = brutto * steuerdaten.krankenversicherung;
+            const pflegebeitrag = brutto * steuerdaten.pflegeversicherung;
+            const arbeitslosenbeitrag = brutto * steuerdaten.arbeitslosenversicherung;
+            
+            const sozialabgabenGesamt = rentenbeitrag + krankenbeitrag + pflegebeitrag + arbeitslosenbeitrag;
+            
+            // Zu versteuerndes Einkommen
+            let zuVersteuern = brutto - sozialabgabenGesamt;
+            
+            // Kinderfreibetrag
+            const kinderfreibetragGesamt = kinder * steuerdaten.kinderfreibetrag;
+            zuVersteuern = Math.max(0, zuVersteuern - kinderfreibetragGesamt);
+            
+            // Grundfreibetrag
+            const grundfreibetrag = steuerdaten.grundfreibetrag[steuerklasse] || 11604;
+            zuVersteuern = Math.max(0, zuVersteuern - grundfreibetrag);
+            
+            // Vereinfachte Steuerberechnung (lineare Approximation)
+            // In der Realität ist die Steuerberechnung progressiv
+            let steuer = 0;
+            if (zuVersteuern > 0) {
+                // Vereinfachte Berechnung: 14% bis 62.800€, dann progressiv
+                if (zuVersteuern <= 62800) {
+                    steuer = zuVersteuern * 0.14;
+                } else if (zuVersteuern <= 274000) {
+                    steuer = 62800 * 0.14 + (zuVersteuern - 62800) * 0.42;
+                } else {
+                    steuer = 62800 * 0.14 + (274000 - 62800) * 0.42 + (zuVersteuern - 274000) * 0.45;
+                }
+            }
+            
+            // Kirchensteuer
+            let kirchensteuer = 0;
+            if (kirchensteuerPflichtig && steuer > 0) {
+                const kirchensteuersatz = steuerdaten.kirchensteuer[bundesland] || 0.09;
+                kirchensteuer = steuer * kirchensteuersatz;
+            }
+            
+            // SolZ (Solidaritätszuschlag) - 5.5% der Lohnsteuer
+            const solz = steuer * 0.055;
+            
+            // Netto berechnen
+            const netto = brutto - steuer - kirchensteuer - solz - sozialabgabenGesamt;
+            const nettoMonat = netto / 12;
+            
+            // Kaufkraft
+            const kaufkraft = (netto / brutto * 100).toFixed(1);
+            
+            // Ergebnisse anzeigen
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('resultContainer').style.display = 'block';
+                
+                // Werte anzeigen
+                document.getElementById('nettoJahr').textContent = netto.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('nettoMonat').textContent = nettoMonat.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('steuerJahr').textContent = (steuer + kirchensteuer + solz).toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('sozialabgaben').textContent = sozialabgabenGesamt.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('rentenversicherung').textContent = rentenbeitrag.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('krankenversicherung').textContent = krankenbeitrag.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('pflegeversicherung').textContent = pflegebeitrag.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('arbeitslosenversicherung').textContent = arbeitslosenbeitrag.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                document.getElementById('kaufkraft').textContent = kaufkraft + '%';
+                
+                // Charts aktualisieren
+                updateAbzuegeChart(brutto, steuer + kirchensteuer + solz, sozialabgabenGesamt, netto);
+                updateVergleichChart(netto, bundesdurchschnitt.netto);
+            }, 500);
+        }
+        
+        // Abzüge-Diagramm aktualisieren
+        function updateAbzuegeChart(brutto, steuer, sozialabgaben, netto) {
+            const ctx = document.getElementById('abzuegeChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Netto (' + netto.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'}) + ')', 
+                           'Steuern (' + steuer.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'}) + ')',
+                           'Sozialabgaben (' + sozialabgaben.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'}) + ')'],
+                    datasets: [{
+                        data: [netto, steuer, sozialabgaben],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(244, 67, 54, 0.7)',
+                            'rgba(54, 162, 235, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(76, 175, 80, 1)',
+                            'rgba(244, 67, 54, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        legend: {
+                            position: 'right'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const percentage = ((value / brutto) * 100).toFixed(1);
+                                    return `${label} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Vergleichs-Chart aktualisieren
+        function updateVergleichChart(netto, bundesdurchschnittNetto) {
+            const ctx = document.getElementById('vergleichChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            const differenz = netto - bundesdurchschnittNetto;
+            const differenzProzent = ((netto / bundesdurchschnittNetto - 1) * 100).toFixed(1);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Dein Netto', 'Bundesdurchschnitt (2026)'],
+                    datasets: [{
+                        label: 'Netto-Jahresgehalt',
+                        data: [netto, bundesdurchschnittNetto],
+                        backgroundColor: [
+                            differenz >= 0 ? 'rgba(76, 175, 80, 0.7)' : 'rgba(244, 67, 54, 0.7)',
+                            'rgba(54, 162, 235, 0.7)'
+                        ],
+                        borderColor: [
+                            differenz >= 0 ? 'rgba(76, 175, 80, 1)' : 'rgba(244, 67, 54, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Du verdienst ${differenz >= 0 ? '+' : ''}${differenz.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'})} (${differenz >= 0 ? '+' : ''}${differenzProzent}%) mehr/weniger als der Durchschnitt`,
+                            font: {
+                                size: 14
+                            }
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Netto: ' + context.raw.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'});
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Netto-Jahresgehalt (€)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('de-DE', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0});
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Standardberechnung beim Laden
+        window.onload = function() {
+            berechneNetto();
+        };
+    </script>
+</body>
+</html>

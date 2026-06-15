@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏘️ Lebensqualitätsindex | Germany Pulse 2030</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #45a049;
+            --accent: #FFC107;
+            --danger: #f44336;
+            --info: #2196F3;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            margin: 10px 0 0;
+        }
+        
+        .chart-container {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.3em;
+            color: var(--dark);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .ranking-container {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .ranking-table th,
+        .ranking-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .ranking-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .ranking-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .rank-1 { background-color: #FFD700; color: #000; }
+        .rank-2 { background-color: #C0C0C0; color: #000; }
+        .rank-3 { background-color: #CD7F32; color: #fff; }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .stat-icon {
+            font-size: 2em;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+        
+        .stat-content {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        .filter-section {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .filter-section h3 {
+            margin-top: 0;
+            color: var(--dark);
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: var(--secondary);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                padding: 10px;
+            }
+            
+            .ranking-table {
+                font-size: 0.8em;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(76, 175, 80, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-home"></i> Lebensqualitätsindex Deutschland 2026</h1>
+            <p class="subtitle">Vergleich aller Bundesländer: Mieten, Gehälter, Arbeitslosigkeit, Infrastruktur & mehr</p>
+        </header>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Daten werden geladen...</p>
+        </div>
+        
+        <!-- Bestes Bundesland Highlight -->
+        <div class="chart-container">
+            <h2 class="chart-title">🏆 Bestes Bundesland zum Leben 2026</h2>
+            <div id="bestesBundesland"></div>
+        </div>
+        
+        <!-- Radar Chart: Alle Kriterien -->
+        <div class="chart-container">
+            <h2 class="chart-title">📊 Lebensqualität nach Bundesland (Radar-Vergleich)</h2>
+            <div style="height: 500px;">
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Ranking Tabelle -->
+        <div class="ranking-container">
+            <h2 class="chart-title">🏅 Offizielles Ranking aller Bundesländer</h2>
+            <table class="ranking-table" id="rankingTable">
+                <thead>
+                    <tr>
+                        <th>Rang</th>
+                        <th>Bundesland</th>
+                        <th>Gesamt-Score</th>
+                        <th>Miete (€)</th>
+                        <th>Gehalt (€)</th>
+                        <th>Arbeitslosigkeit (%)</th>
+                        <th>Internet (Mbit/s)</th>
+                    </tr>
+                </thead>
+                <tbody id="rankingBody">
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Vergleichs-Charts -->
+        <div class="chart-container">
+            <h2 class="chart-title">📈 Vergleich: Miete vs. Gehalt vs. Arbeitslosigkeit</h2>
+            <canvas id="comparisonChart"></canvas>
+        </div>
+        
+        <!-- Kriterien-Detailansicht -->
+        <div class="chart-container">
+            <h2 class="chart-title">🔍 Lebensqualität nach Kriterien</h2>
+            <div id="kriterienCharts"></div>
+        </div>
+        
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h3><i class="fas fa-filter"></i> Kriterien auswählen</h3>
+            <div>
+                <label for="kriteriumSelect">Vergleich nach:</label>
+                <select id="kriteriumSelect" onchange="updateKriterienChart()">
+                    <option value="Miete_2Zimmer (€)">Miete (2-Zimmer)</option>
+                    <option value="Durchschnittsgehalt (€)">Durchschnittsgehalt</option>
+                    <option value="Arbeitslosenquote (%)">Arbeitslosenquote</option>
+                    <option value="Internetgeschwindigkeit (Mbit/s)">Internetgeschwindigkeit</option>
+                    <option value="Ärzte pro 1000 Einwohner">Ärzteversorgung</option>
+                    <option value="Kriminalität (Fälle pro 1000)">Kriminalität</option>
+                    <option value="Kinderbetreuung (Plätze pro 100)">Kinderbetreuung</option>
+                    <option value="ÖPNV-Qualität (1-10)">ÖPNV-Qualität</option>
+                    <option value="Kulturangebot (1-10)">Kulturangebot</option>
+                    <option value="Grünflächen (m² pro Einwohner)">Grünflächen</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h2 class="chart-title">📊 Ausgewähltes Kriterium: <span id="selectedKriterium">Miete (2-Zimmer)</span></h2>
+            <canvas id="kriteriumChart"></canvas>
+        </div>
+        
+        <footer>
+            <p><i class="fas fa-database"></i> Datenquellen: Statistisches Bundesamt, Immoscout24, Numbeo (2026)</p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-code"></i> Mit ❤️ und Chart.js erstellt | 
+                <i class="fas fa-github"></i> <a href="https://github.com/rintuchowdory/deutschland-digital-projekt" style="color: var(--primary);">GitHub Repository</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Globale Variable für die Daten
+        let lebensqualitaetDaten = [];
+        let chartInstances = {};
+        
+        // Daten laden
+        fetch('../data/lebensqualitaet.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                // CSV parsen
+                const lines = csvText.split('\n');
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                lebensqualitaetDaten = lines.slice(1).map(line => {
+                    const values = line.split(',');
+                    const entry = {};
+                    headers.forEach((header, index) => {
+                        entry[header] = values[index] ? values[index].trim() : '';
+                    });
+                    return entry;
+                }).filter(entry => entry.Bundesland); // Leere Zeilen entfernen
+                
+                // Daten verarbeiten (Strings zu Zahlen konvertieren)
+                lebensqualitaetDaten.forEach(entry => {
+                    for (const key in entry) {
+                        if (key !== 'Bundesland' && !isNaN(entry[key])) {
+                            entry[key] = parseFloat(entry[key].replace(/[^0-9.-]/g, ''));
+                        }
+                    }
+                });
+                
+                // Sortieren nach Gesamt-Score
+                lebensqualitaetDaten.sort((a, b) => b.Gesamt_Score - a.Gesamt_Score);
+                
+                // Bestes Bundesland anzeigen
+                displayBestesBundesland();
+                
+                // Ranking-Tabelle erstellen
+                createRankingTable();
+                
+                // Charts erstellen
+                createRadarChart();
+                createComparisonChart();
+                updateKriterienChart();
+                
+                document.getElementById('loading').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden der Daten:', error);
+                document.getElementById('loading').innerHTML = '<p style="color: red;">Fehler beim Laden der Daten. Bitte lade die Seite neu.</p>';
+            });
+        
+        // Bestes Bundesland anzeigen
+        function displayBestesBundesland() {
+            const bestes = lebensqualitaetDaten[0];
+            const container = document.getElementById('bestesBundesland');
+            
+            container.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 3em; color: #FFD700;">🥇</div>
+                    <h2 style="margin: 10px 0; color: var(--primary);">${bestes.Bundesland}</h2>
+                    <p style="font-size: 1.2em;">
+                        <strong>Gesamt-Score: ${bestes.Gesamt_Score.toFixed(1)}</strong>
+                    </p>
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
+                        <div class="stat-card">
+                            <div class="stat-icon">🏠</div>
+                            <div class="stat-content">
+                                <div class="stat-value">${bestes['Miete_2Zimmer (€)'].toLocaleString()}€</div>
+                                <div class="stat-label">Miete (2-Zimmer)</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-content">
+                                <div class="stat-value">${bestes['Durchschnittsgehalt (€)'].toLocaleString()}€</div>
+                                <div class="stat-label">Durchschnittsgehalt</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💼</div>
+                            <div class="stat-content">
+                                <div class="stat-value">${bestes['Arbeitslosenquote (%)']}%</div>
+                                <div class="stat-label">Arbeitslosigkeit</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-container" style="margin-top: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        <div class="progress-bar" style="width: ${bestes.Gesamt_Score}%;"></div>
+                    </div>
+                    <p style="margin-top: 10px; color: var(--secondary);">
+                        <strong>${bestes.Gesamt_Score.toFixed(1)} von 100 Punkten</strong>
+                    </p>
+                </div>
+            `;
+        }
+        
+        // Ranking-Tabelle erstellen
+        function createRankingTable() {
+            const tbody = document.getElementById('rankingBody');
+            tbody.innerHTML = '';
+            
+            lebensqualitaetDaten.forEach((entry, index) => {
+                const row = document.createElement('tr');
+                
+                const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                
+                row.innerHTML = `
+                    <td><span class="rank-badge ${rankClass}">${index + 1}</span></td>
+                    <td><strong>${entry.Bundesland}</strong></td>
+                    <td><strong>${entry.Gesamt_Score.toFixed(1)}</strong></td>
+                    <td>${entry['Miete_2Zimmer (€)'].toLocaleString()}€</td>
+                    <td>${entry['Durchschnittsgehalt (€)'].toLocaleString()}€</td>
+                    <td>${entry['Arbeitslosenquote (%)']}%</td>
+                    <td>${entry['Internetgeschwindigkeit (Mbit/s)']}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Radar Chart erstellen
+        function createRadarChart() {
+            const ctx = document.getElementById('radarChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            // Top 3 Bundesländer für Radar-Chart
+            const top3 = lebensqualitaetDaten.slice(0, 3);
+            
+            // Kriterien für Radar-Chart (normalisiert auf 0-100)
+            const kriterien = [
+                'Miete_2Zimmer (€)',
+                'Durchschnittsgehalt (€)',
+                'Arbeitslosenquote (%)',
+                'Internetgeschwindigkeit (Mbit/s)',
+                'Ärzte pro 1000 Einwohner',
+                'Kriminalität (Fälle pro 1000)',
+                'Kinderbetreuung (Plätze pro 100)',
+                'ÖPNV-Qualität (1-10)',
+                'Kulturangebot (1-10)',
+                'Grünflächen (m² pro Einwohner)'
+            ];
+            
+            // Normalisierung der Daten (0-100)
+            const normalizedData = top3.map(bundesland => {
+                const data = kriterien.map(kriterium => {
+                    // Für Arbeitslosigkeit und Kriminalität: niedriger = besser
+                    if (kriterium.includes('Arbeitslosenquote') || kriterium.includes('Kriminalität')) {
+                        const max = Math.max(...lebensqualitaetDaten.map(b => b[kriterium]));
+                        return 100 - (bundesland[kriterium] / max * 100);
+                    }
+                    // Für andere: höher = besser
+                    const max = Math.max(...lebensqualitaetDaten.map(b => b[kriterium]));
+                    const min = Math.min(...lebensqualitaetDaten.map(b => b[kriterium]));
+                    return ((bundesland[kriterium] - min) / (max - min)) * 100;
+                });
+                return data;
+            });
+            
+            // Kriterien-Namen für Anzeige
+            const kriterienNamen = [
+                'Geringe Mieten',
+                'Hohe Gehälter',
+                'Niedrige Arbeitslosigkeit',
+                'Schnelles Internet',
+                'Gute Ärzteversorgung',
+                'Geringe Kriminalität',
+                'Gute Kinderbetreuung',
+                'Guter ÖPNV',
+                'Kulturangebot',
+                'Viele Grünflächen'
+            ];
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: kriterienNamen,
+                    datasets: top3.map((bundesland, index) => ({
+                        label: bundesland.Bundesland,
+                        data: normalizedData[index],
+                        borderColor: `hsl(${index * 120}, 70%, 50%)`,
+                        backgroundColor: `hsla(${index * 120}, 70%, 50%, 0.2)`,
+                        borderWidth: 2,
+                        pointBackgroundColor: `hsl(${index * 120}, 70%, 50%)`
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Vergleichs-Chart (Miete vs. Gehalt vs. Arbeitslosigkeit)
+        function createComparisonChart() {
+            const ctx = document.getElementById('comparisonChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: lebensqualitaetDaten.map(b => b.Bundesland),
+                    datasets: [
+                        {
+                            label: 'Miete (€)',
+                            data: lebensqualitaetDaten.map(b => b['Miete_2Zimmer (€)']),
+                            backgroundColor: 'rgba(244, 67, 54, 0.7)',
+                            borderColor: 'rgba(244, 67, 54, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Gehalt (€)',
+                            data: lebensqualitaetDaten.map(b => b['Durchschnittsgehalt (€)']),
+                            backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                            borderColor: 'rgba(76, 175, 80, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'Arbeitslosigkeit (%)',
+                            data: lebensqualitaetDaten.map(b => b['Arbeitslosenquote (%)']),
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y2'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label + ': ';
+                                    if (context.datasetIndex === 0) label += context.raw.toLocaleString() + '€';
+                                    else if (context.datasetIndex === 1) label += context.raw.toLocaleString() + '€';
+                                    else label += context.raw + '%';
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: false,
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Miete / Gehalt (€)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Gehalt (€)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        },
+                        y2: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Arbeitslosigkeit (%)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Kriterien-Chart aktualisieren
+        function updateKriterienChart() {
+            const selectedKriterium = document.getElementById('kriteriumSelect').value;
+            const kriteriumName = document.getElementById('kriteriumSelect').options[document.getElementById('kriteriumSelect').selectedIndex].text;
+            document.getElementById('selectedKriterium').textContent = kriteriumName;
+            
+            const ctx = document.getElementById('kriteriumChart');
+            if (ctx.chart) ctx.chart.destroy();
+            
+            // Für Arbeitslosigkeit und Kriminalität: niedriger = besser (umkehren)
+            const isInverse = selectedKriterium.includes('Arbeitslosenquote') || selectedKriterium.includes('Kriminalität');
+            
+            const data = lebensqualitaetDaten.map(bundesland => {
+                if (isInverse) {
+                    return 100 - bundesland[selectedKriterium]; // Umkehren für bessere Darstellung
+                }
+                return bundesland[selectedKriterium];
+            });
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: lebensqualitaetDaten.map(b => b.Bundesland),
+                    datasets: [{
+                        label: kriteriumName,
+                        data: data,
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw;
+                                    if (isInverse) value = 100 - value;
+                                    if (selectedKriterium.includes('(€)')) {
+                                        return kriteriumName + ': ' + value.toLocaleString() + '€';
+                                    } else if (selectedKriterium.includes('(%)')) {
+                                        return kriteriumName + ': ' + value.toFixed(1) + '%';
+                                    } else {
+                                        return kriteriumName + ': ' + value;
+                                    }
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: isInverse ? 'Score (100 = bester Wert)' : kriteriumName
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Kriterien-Detailansicht
+        function createKriterienCharts() {
+            const container = document.getElementById('kriterienCharts');
+            container.innerHTML = '';
+            
+            const kriterien = [
+                { name: 'Miete (2-Zimmer)', key: 'Miete_2Zimmer (€)', unit: '€', inverse: false },
+                { name: 'Durchschnittsgehalt', key: 'Durchschnittsgehalt (€)', unit: '€', inverse: false },
+                { name: 'Arbeitslosenquote', key: 'Arbeitslosenquote (%)', unit: '%', inverse: true },
+                { name: 'Internetgeschwindigkeit', key: 'Internetgeschwindigkeit (Mbit/s)', unit: 'Mbit/s', inverse: false },
+                { name: 'Ärzteversorgung', key: 'Ärzte pro 1000 Einwohner', unit: 'pro 1000', inverse: false }
+            ];
+            
+            kriterien.forEach((kriterium, index) => {
+                const canvasId = `kriteriumDetail${index}`;
+                const div = document.createElement('div');
+                div.style.margin = '20px 0';
+                div.innerHTML = `
+                    <h3 style="color: var(--primary);">${kriterium.name}</h3>
+                    <canvas id="${canvasId}" style="max-height: 300px;"></canvas>
+                `;
+                container.appendChild(div);
+                
+                const ctx = document.getElementById(canvasId);
+                const data = lebensqualitaetDaten.map(b => {
+                    if (kriterium.inverse) {
+                        return 100 - b[kriterium.key];
+                    }
+                    return b[kriterium.key];
+                });
+                
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: lebensqualitaetDaten.map(b => b.Bundesland),
+                        datasets: [{
+                            label: kriterium.name,
+                            data: data,
+                            backgroundColor: `hsl(${index * 60}, 70%, 70%)`,
+                            borderColor: `hsl(${index * 60}, 70%, 50%)`,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let value = context.raw;
+                                        if (kriterium.inverse) value = 100 - value;
+                                        return `${kriterium.name}: ${value} ${kriterium.unit}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    autoSkip: true,
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                }
+                            },
+                            y: {
+                                beginAtZero: !kriterium.inverse,
+                                title: {
+                                    display: true,
+                                    text: kriterium.inverse ? 'Score (100 = bester Wert)' : kriterium.name
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

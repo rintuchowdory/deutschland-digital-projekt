@@ -1,0 +1,221 @@
+{
+  "metadata": {
+    "name": "Zukunfts-Simulator 2030",
+    "description": "Simuliert die Entwicklung Deutschlands bis 2030 basierend auf verschiedenen Investitionen und Maßnahmen",
+    "year": 2026,
+    "projection_year": 2030,
+    "sources": ["Statistisches Bundesamt", "Bundesministerium für Wirtschaft und Energie", "KI-Strategie Deutschland", "Digitalstrategie 2030"],
+    "last_updated": "2026-06-15"
+  },
+  
+  "basis_werte_2026": {
+    "desi": 75.2,
+    "ki_nutzung": 41,
+    "wirtschaft_bip_pro_kopf": 42500,
+    "arbeitslosigkeit": 5.8,
+    "lebensqualitaet": 75.0,
+    "co2_emissionen": 7.8,
+    "glasfaser_abdeckung": 52.8,
+    "digitalisierung_index": 72.5
+  },
+  
+  "parameter": {
+    "ki_investitionen": {
+      "name": "KI-Investitionen",
+      "description": "Jährliche Investitionen in KI-Forschung und -Entwicklung in Milliarden Euro",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "Mrd. €/Jahr",
+      "default": 50,
+      "impact": {
+        "desi": 0.2,
+        "ki_nutzung": 0.015,
+        "wirtschaft_bip_pro_kopf": 50,
+        "arbeitslosigkeit": -0.001,
+        "lebensqualitaet": 0.05
+      }
+    },
+    "fachkraefte_zuwanderung": {
+      "name": "Fachkräftezuwanderung",
+      "description": "Anzahl der zugewanderten Fachkräfte pro Jahr",
+      "min": 0,
+      "max": 500000,
+      "step": 50000,
+      "unit": "Personen/Jahr",
+      "default": 250000,
+      "impact": {
+        "desi": 0.0001,
+        "ki_nutzung": 0.000005,
+        "wirtschaft_bip_pro_kopf": 0.2,
+        "arbeitslosigkeit": -0.000005,
+        "lebensqualitaet": 0.0002
+      }
+    },
+    "glasfaser_ausbau": {
+      "name": "Glasfaserausbau",
+      "description": "Prozentuale Abdeckung mit Glasfaser-Internet bis 2030",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 75,
+      "impact": {
+        "desi": 0.3,
+        "ki_nutzung": 0.001,
+        "wirtschaft_bip_pro_kopf": 10,
+        "arbeitslosigkeit": -0.0005,
+        "lebensqualitaet": 0.15
+      }
+    },
+    "bildungs_investitionen": {
+      "name": "Bildungsinvestitionen",
+      "description": "Jährliche Investitionen in Bildung und Forschung in Milliarden Euro",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "Mrd. €/Jahr",
+      "default": 25,
+      "impact": {
+        "desi": 0.15,
+        "ki_nutzung": 0.005,
+        "wirtschaft_bip_pro_kopf": 30,
+        "arbeitslosigkeit": -0.0005,
+        "lebensqualitaet": 0.05
+      }
+    },
+    "infrastruktur_investitionen": {
+      "name": "Infrastrukturinvestitionen",
+      "description": "Jährliche Investitionen in Verkehrsinfrastruktur in Milliarden Euro",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "Mrd. €/Jahr",
+      "default": 30,
+      "impact": {
+        "desi": 0.1,
+        "ki_nutzung": 0.0005,
+        "wirtschaft_bip_pro_kopf": 40,
+        "arbeitslosigkeit": -0.0002,
+        "lebensqualitaet": 0.1
+      }
+    },
+    "klimaschutz_investitionen": {
+      "name": "Klimaschutzinvestitionen",
+      "description": "Jährliche Investitionen in Klimaschutz und erneuerbare Energien in Milliarden Euro",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "Mrd. €/Jahr",
+      "default": 20,
+      "impact": {
+        "desi": 0.05,
+        "ki_nutzung": 0.0002,
+        "wirtschaft_bip_pro_kopf": 15,
+        "arbeitslosigkeit": -0.0001,
+        "lebensqualitaet": 0.2,
+        "co2_emissionen": -0.2
+      }
+    }
+  },
+  
+  "szenarien": {
+    "optimistisch": {
+      "name": "Optimistisches Szenario",
+      "description": "Hohe Investitionen in alle Bereiche führen zu rasanter Entwicklung",
+      "parameter": {
+        "ki_investitionen": 100,
+        "fachkraefte_zuwanderung": 500000,
+        "glasfaser_ausbau": 100,
+        "bildungs_investitionen": 50,
+        "infrastruktur_investitionen": 60,
+        "klimaschutz_investitionen": 40
+      },
+      "erwartete_ergebnisse": {
+        "desi": 95,
+        "ki_nutzung": 85,
+        "wirtschaft_bip_pro_kopf": 55000,
+        "arbeitslosigkeit": 3.5,
+        "lebensqualitaet": 90,
+        "co2_emissionen": 4.0
+      }
+    },
+    "realistisch": {
+      "name": "Realistisches Szenario",
+      "description": "Mäßige Investitionen führen zu ausgewogener Entwicklung",
+      "parameter": {
+        "ki_investitionen": 50,
+        "fachkraefte_zuwanderung": 250000,
+        "glasfaser_ausbau": 75,
+        "bildungs_investitionen": 25,
+        "infrastruktur_investitionen": 30,
+        "klimaschutz_investitionen": 20
+      },
+      "erwartete_ergebnisse": {
+        "desi": 85,
+        "ki_nutzung": 65,
+        "wirtschaft_bip_pro_kopf": 48000,
+        "arbeitslosigkeit": 4.5,
+        "lebensqualitaet": 82,
+        "co2_emissionen": 6.0
+      }
+    },
+    "pessimistisch": {
+      "name": "Pessimistisches Szenario",
+      "description": "Geringe Investitionen führen zu langsamer Entwicklung",
+      "parameter": {
+        "ki_investitionen": 10,
+        "fachkraefte_zuwanderung": 50000,
+        "glasfaser_ausbau": 30,
+        "bildungs_investitionen": 5,
+        "infrastruktur_investitionen": 10,
+        "klimaschutz_investitionen": 5
+      },
+      "erwartete_ergebnisse": {
+        "desi": 70,
+        "ki_nutzung": 45,
+        "wirtschaft_bip_pro_kopf": 41000,
+        "arbeitslosigkeit": 7.0,
+        "lebensqualitaet": 70,
+        "co2_emissionen": 8.5
+      }
+    },
+    "fokus_ki": {
+      "name": "KI-Fokus-Szenario",
+      "description": "Starke Investitionen in KI, andere Bereiche vernachlässigt",
+      "parameter": {
+        "ki_investitionen": 100,
+        "fachkraefte_zuwanderung": 300000,
+        "glasfaser_ausbau": 50,
+        "bildungs_investitionen": 10,
+        "infrastruktur_investitionen": 15,
+        "klimaschutz_investitionen": 10
+      },
+      "erwartete_ergebnisse": {
+        "desi": 88,
+        "ki_nutzung": 80,
+        "wirtschaft_bip_pro_kopf": 47000,
+        "arbeitslosigkeit": 5.0,
+        "lebensqualitaet": 76,
+        "co2_emissionen": 7.5
+      }
+    }
+  },
+  
+  "formeln": {
+    "desi_2030": "75.2 + (ki_investitionen * 0.2) + (glasfaser_ausbau * 0.3) + (bildungs_investitionen * 0.15) + (infrastruktur_investitionen * 0.1)",
+    "ki_nutzung_2030": "41 + (ki_investitionen * 0.015 * 100) + (fachkraefte_zuwanderung * 0.000005 * 100) + (bildungs_investitionen * 0.005 * 100)",
+    "wirtschaft_2030": "42500 + (ki_investitionen * 50) + (fachkraefte_zuwanderung * 0.2) + (infrastruktur_investitionen * 40) + (bildungs_investitionen * 30)",
+    "arbeitslosigkeit_2030": "5.8 - (fachkraefte_zuwanderung * 0.000005 * 100) - (ki_investitionen * 0.001 * 100) - (bildungs_investitionen * 0.0005 * 100)",
+    "lebensqualitaet_2030": "75 + (glasfaser_ausbau * 0.15) + (bildungs_investitionen * 0.05) + (infrastruktur_investitionen * 0.1) + (klimaschutz_investitionen * 0.2) + ((100 - arbeitslosigkeit_2030) * 0.1)",
+    "co2_2030": "7.8 - (klimaschutz_investitionen * 0.2)"
+  },
+  
+  "hinweise": [
+    "Die Berechnungen basieren auf vereinfachten Modellen und linearen Annahmen.",
+    "In der Realität sind die Zusammenhänge komplexer und nicht-linear.",
+    "Externe Faktoren (z.B. globale Wirtschaftslage, politische Entscheidungen) werden nicht berücksichtigt.",
+    "Die Werte dienen der Veranschaulichung und sind keine offiziellen Prognosen.",
+    "Für präzise Prognosen sollten detaillierte ökonometrische Modelle verwendet werden."
+  ]
+}
