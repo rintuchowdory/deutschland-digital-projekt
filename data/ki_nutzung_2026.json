@@ -1,0 +1,58 @@
+{
+  "Branchen": [
+    {
+      "Branche": "IT/Telekommunikation",
+      "Nutzung_2026": 65,
+      "Geplant_2026": 20,
+      "Hauptanwendung": "Chatbots, Code-Generierung"
+    },
+    {
+      "Branche": "Finanzen/Versicherungen",
+      "Nutzung_2026": 58,
+      "Geplant_2026": 25,
+      "Hauptanwendung": "Betrugserkennung, Risikoanalyse"
+    },
+    {
+      "Branche": "Industrie 4.0",
+      "Nutzung_2026": 52,
+      "Geplant_2026": 30,
+      "Hauptanwendung": "Predictive Maintenance, Qualitätskontrolle"
+    },
+    {
+      "Branche": "Handel",
+      "Nutzung_2026": 45,
+      "Geplant_2026": 35,
+      "Hauptanwendung": "Personalisierung, Lagerverwaltung"
+    },
+    {
+      "Branche": "Gesundheitswesen",
+      "Nutzung_2026": 40,
+      "Geplant_2026": 40,
+      "Hauptanwendung": "Diagnoseunterstützung, Patientenmanagement"
+    },
+    {
+      "Branche": "Öffentlicher Sektor",
+      "Nutzung_2026": 30,
+      "Geplant_2026": 50,
+      "Hauptanwendung": "Dokumentenanalyse, Bürgerdienste"
+    },
+    {
+      "Branche": "Mittelstand (50-500 MA)",
+      "Nutzung_2026": 35,
+      "Geplant_2026": 48,
+      "Hauptanwendung": "Prozessautomatisierung, Kundenservice"
+    },
+    {
+      "Branche": "Großunternehmen (500+ MA)",
+      "Nutzung_2026": 60,
+      "Geplant_2026": 25,
+      "Hauptanwendung": "Skalierung, Datenanalyse"
+    },
+    {
+      "Branche": "Startups",
+      "Nutzung_2026": 70,
+      "Geplant_2026": 15,
+      "Hauptanwendung": "Produktentwicklung, MVP-Tests"
+    }
+  ]
+}
