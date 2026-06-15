@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Digitale Bürgerdienste 2026</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="buergerChart" style="width:100%;height:500px;"></div>
+    <script>
+        var data = [{
+            z: [
+                [75, 85, 60],
+                [72, 82, 58],
+                [70, 80, 55],
+                [65, 75, 50],
+                [60, 70, 45],
+                [58, 68, 42],
+                [55, 65, 40],
+                [50, 60, 38],
+                [48, 58, 35],
+                [45, 55, 30],
+                [40, 50, 28],
+                [38, 48, 25],
+                [35, 45, 22],
+                [30, 40, 20],
+                [28, 38, 18]
+            ],
+            x: ["Bayern", "Hessen", "Baden-Württemberg", "Nordrhein-Westfalen", "Niedersachsen", "Rheinland-Pfalz", "Schleswig-Holstein", "Hamburg", "Bremen", "Berlin", "Brandenburg", "Mecklenburg-Vorpommern", "Sachsen", "Sachsen-Anhalt", "Thüringen"],
+            y: ["Flächendeckend online", "Teilweise digital", "Nutzung durch Bürger"],
+            type: 'heatmap',
+            colorscale: 'RdYlGn',
+            hovertemplate: '<b>%{x}</b><br>%{y}: %{z}%<extra></extra>'
+        }];
+        var layout = {
+            title: 'Verfügbarkeit digitaler Bürgerdienste nach Bundesland (2026)',
+            xaxis: { title: 'Bundesland' },
+            yaxis: { title: 'Kategorie' },
+            height: 500
+        };
+        Plotly.newPlot('buergerChart', data, layout);
+    </script>
+</body>
+</html>

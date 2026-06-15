@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Glasfaserabdeckung Deutschland 2026</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="glasfaserChart" style="width:100%;height:600px;"></div>
+    <script>
+        var data = [{
+            x: ["Schleswig-Holstein", "Hamburg", "Bremen", "Niedersachsen", "Nordrhein-Westfalen", "Hessen", "Rheinland-Pfalz", "Baden-Württemberg", "Bayern", "Saarland", "Berlin", "Brandenburg", "Mecklenburg-Vorpommern", "Sachsen", "Sachsen-Anhalt", "Thüringen"],
+            y: [72, 68, 65, 58, 55, 52, 50, 48, 45, 42, 38, 40, 44, 35, 30, 32],
+            type: 'bar',
+            marker: {
+                color: [72, 68, 65, 58, 55, 52, 50, 48, 45, 42, 38, 40, 44, 35, 30, 32],
+                colorscale: 'Plasma',
+                showscale: true
+            },
+            text: [72, 68, 65, 58, 55, 52, 50, 48, 45, 42, 38, 40, 44, 35, 30, 32],
+            texttemplate: '%{text}%',
+            textposition: 'outside',
+            hovertemplate: '<b>%{x}</b><br>Abdeckung 2026: %{y}%<br>Abdeckung 2025: %{customdata[0]}%<br>Investitionen: %{customdata[1]} Mio. €<extra></extra>',
+            customdata: [
+                [60, 55, 50, 45, 40, 38, 35, 32, 30, 28, 25, 28, 30, 22, 18, 20],
+                [1200, 950, 300, 2500, 3800, 1800, 1200, 2200, 3000, 200, 1500, 800, 500, 1000, 600, 400]
+            ]
+        }];
+        var layout = {
+            title: 'Glasfaserabdeckung (FTTH/FTTB) in Deutschland 2026',
+            xaxis: { title: 'Bundesland', tickangle: -45 },
+            yaxis: { title: 'Abdeckung in %' },
+            height: 600
+        };
+        Plotly.newPlot('glasfaserChart', data, layout);
+    </script>
+</body>
+</html>
