@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DESI-Index 2026</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="desiChart" style="width:100%;height:500px;"></div>
+    <script>
+        var data = [
+            {
+                type: 'scatterpolar',
+                r: [70, 65, 75, 40, 60],
+                theta: ["Konnektivität", "Digitale Kompetenzen", "Digitale Wirtschaft", "Digitale Verwaltung", "Integration digitaler Technologien"],
+                fill: 'toself',
+                name: 'Deutschland (2026)'
+            },
+            {
+                type: 'scatterpolar',
+                r: [65, 60, 68, 55, 58],
+                theta: ["Konnektivität", "Digitale Kompetenzen", "Digitale Wirtschaft", "Digitale Verwaltung", "Integration digitaler Technologien"],
+                fill: 'toself',
+                name: 'EU-Durchschnitt'
+            },
+            {
+                type: 'scatterpolar',
+                r: [85, 80, 85, 80, 82],
+                theta: ["Konnektivität", "Digitale Kompetenzen", "Digitale Wirtschaft", "Digitale Verwaltung", "Integration digitaler Technologien"],
+                fill: 'toself',
+                name: 'Spitzenreiter (Finnland/Dänemark)'
+            }
+        ];
+        var layout = {
+            polar: {
+                radialaxis: {
+                    visible: true,
+                    range: [0, 100]
+                }
+            },
+            showlegend: true,
+            title: 'DESI-Index 2026: Deutschland vs. EU-Durchschnitt vs. Spitzenreiter',
+            height: 500
+        };
+        Plotly.newPlot('desiChart', data, layout);
+    </script>
+</body>
+</html>
